@@ -1,0 +1,6 @@
+@Fortuna_HostAddress = http://localhost:5093
+
+GET {{Fortuna_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
