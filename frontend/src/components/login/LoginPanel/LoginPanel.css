@@ -85,6 +85,7 @@
 @media (max-width: 1000px) {
   .login-panel {
     grid-template-columns: 1fr;
+    min-width: 500px;
   }
 
   .login-panel__right {

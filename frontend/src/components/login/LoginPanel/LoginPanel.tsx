@@ -27,7 +27,7 @@ export function LoginPanel({ onOpenSupport }: LoginPanelProps) {
           </div>
 
           <label className="login-panel__label" htmlFor="password">
-            Hasło <span className="login-panel__hint">i</span>
+            Hasło <span className="login-panel__hint"></span>
           </label>
           <input
             id="password"
@@ -49,31 +49,6 @@ export function LoginPanel({ onOpenSupport }: LoginPanelProps) {
           <button className="login-panel__support-link" type="button" onClick={onOpenSupport}>
             Problemy z logowaniem
           </button>
-
-          <div className="login-panel__info-blocks">
-            <div>
-              <h3>Fałszywi konsultanci</h3>
-              <p>
-                Oszuści podszywają się pod pracowników Banku - nie pobieraj nieznanych aplikacji i nie
-                udostępniaj poufnych danych <span>Więcej</span>
-              </p>
-            </div>
-
-            <div>
-              <h3>Finanse 360°</h3>
-              <p>
-                Sprawdź saldo i zlecaj przelewy z kont w innych bankach wygodnie przez Millenet <span>Więcej</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="login-panel__right">
-        <div className="login-panel__footer-links">
-          <span>🔒 Bezpieczeństwo</span>
-          <span>🛡 Oddziały i bankomaty</span>
-          <span>✉ Napisz do nas</span>
         </div>
       </div>
     </div>
