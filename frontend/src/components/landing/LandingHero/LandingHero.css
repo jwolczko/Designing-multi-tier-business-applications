@@ -1,0 +1,94 @@
+.landing-hero {
+.landing-hero__eggs {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.landing-hero__egg {
+  border-radius: 50% 50% 46% 46%;
+  width: 100px;
+  height: 130px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.landing-hero__egg--pink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ca184e;
+  color: #fff;
+  font-size: 60px;
+  font-weight: 300;
+}
+
+.landing-hero__egg--mint {
+  background: #b8f0ea;
+}
+
+.landing-hero__egg--light {
+  background: #ffd1da;
+}
+
+.landing-hero__egg--rose {
+  background: #f19cb4;
+}
+
+.landing-hero__cards {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr 1fr;
+  margin: -70px 16px 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.landing-hero__card {
+  min-height: 120px;
+  padding: 32px 28px;
+  border-left: 1px solid #f0f0f0;
+}
+
+.landing-hero__card strong {
+  display: block;
+  color: #d00858;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.landing-hero__card p {
+  color: #666;
+}
+
+.landing-hero__card--dark {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #19223a;
+  border-left: none;
+}
+
+.landing-hero__card--dark strong,
+.landing-hero__card--dark span {
+  color: #fff;
+}
+
+@media (max-width: 1200px) {
+  .landing-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero__cards {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+  }
+
+  .landing-hero__card {
+    border-left: none;
+    border-top: 1px solid #f0f0f0;
+  }
+}

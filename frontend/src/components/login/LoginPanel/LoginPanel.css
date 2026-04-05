@@ -1,0 +1,103 @@
+.login-panel {
+  background: #fff;
+  padding: 0 12px;
+}
+
+.login-panel__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.login-panel__back-btn,
+.login-panel__submit-btn {
+  height: 36px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.login-panel__back-btn {
+  background: #dfdfdf;
+  color: #666;
+}
+
+.login-panel__submit-btn {
+  border: none;
+  background: #c70059;
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-panel__support-link {
+  margin-top: 18px;
+  border: none;
+  background: transparent;
+  color: #d00858;
+  text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.login-panel__info-blocks {
+  margin-top: 46px;
+  display: grid;
+  gap: 22px;
+}
+
+.login-panel__info-blocks h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #262626;
+}
+
+.login-panel__info-blocks p {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #777;
+}
+
+.login-panel__info-blocks span {
+  color: #d00858;
+  font-weight: 700;
+}
+
+.login-panel__right {
+  position: relative;
+  background: #454bcf;
+  border-left: 2px solid #d00958;
+}
+
+.login-panel__footer-links {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  display: flex;
+  gap: 24px;
+  color: #fff;
+  font-size: 13px;
+}
+
+@media (max-width: 1000px) {
+  .login-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .login-panel__right {
+    min-height: 220px;
+  }
+
+  .login-panel__left {
+    padding: 40px 20px;
+  }
+
+  .login-panel__footer-links {
+    left: 20px;
+    right: 20px;
+    flex-wrap: wrap;
+  }
+}

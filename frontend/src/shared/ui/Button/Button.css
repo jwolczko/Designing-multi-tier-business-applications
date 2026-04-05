@@ -1,0 +1,25 @@
+.ui-button {
+  min-height: 38px;
+  padding: 0 16px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ui-button--primary {
+  border: none;
+  background: #c70059;
+  color: #fff;
+}
+
+.ui-button--outline {
+  border: 2px solid #d00858;
+  background: #fff;
+  color: #d00858;
+}
+
+.ui-button--ghost {
+  border: none;
+  background: transparent;
+  color: #333;
+}

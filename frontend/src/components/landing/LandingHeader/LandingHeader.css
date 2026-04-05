@@ -1,0 +1,102 @@
+.landing-header {
+.landing-header__audiences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.landing-header__audience {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6c6c6c;
+}
+
+.landing-header__audience--active {
+  color: #d00858;
+}
+
+.landing-header__utilities {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #4d4d4d;
+}
+
+.landing-header__utility-large {
+  font-size: 22px;
+}
+
+.landing-header__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.landing-header__search-wrapper {
+  position: sticky
+  width: 320px;
+}
+
+.landing-header__search {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #999;
+  padding: 0 42px 0 14px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.landing-header__search-icon {
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.landing-header__outline-btn,
+.landing-header__login-btn {
+  height: 46px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.landing-header__outline-btn {
+  border: 2px solid #d00858;
+  background: #fff;
+  color: #d00858;
+}
+
+.landing-header__login-btn {
+  background: #1f63c7;
+  color: #fff;
+}
+
+.landing-header__menu {
+  display: flex;
+  justify-content: center;
+  gap: 42px;
+  padding: 22px 12px 30px;
+  color: #666;
+  font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .landing-header__toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .landing-header__menu {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

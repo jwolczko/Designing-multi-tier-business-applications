@@ -1,0 +1,37 @@
+.dashboard-page {
+  min-height: 100vh;
+  background-color: #f3f3f5;
+}
+
+.dashboard-page__content {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+}
+
+.dashboard-page__main {
+  padding: 20px 16px 40px;
+  border-right: 1px solid #d9d9df;
+}
+
+.dashboard-page__sidebar {
+  padding: 20px;
+}
+
+.dashboard-page__settings-btn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #d00858;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-page__content {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-page__main {
+    border-right: none;
+  }
+}

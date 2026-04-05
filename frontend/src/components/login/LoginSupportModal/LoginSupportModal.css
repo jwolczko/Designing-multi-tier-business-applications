@@ -1,0 +1,103 @@
+.login-support-modal__overlay {
+  margin-top: 52px;
+  height: 1px;
+  background: #d8d8d8;
+}
+
+.login-support-modal__form-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin: 70px 90px 0;
+}
+
+.login-support-modal__field {
+  flex: 1;
+}
+
+.login-support-modal__field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.login-support-modal__field-header label {
+  color: #ddd;
+}
+
+.login-support-modal__field-header button {
+  border: none;
+  background: transparent;
+  color: #d00858;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-support-modal__field input {
+  width: 100%;
+  height: 58px;
+  border: 2px solid #1b59c5;
+  border-radius: 4px;
+  padding: 0 12px;
+  background: #fff;
+}
+
+.login-support-modal__next {
+  min-width: 90px;
+  height: 58px;
+  border: none;
+  background: #c70059;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.login-support-modal__info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 44px 90px 0;
+}
+
+.login-support-modal__info-card h3 {
+  color: #d00858;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.login-support-modal__info-card p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #656565;
+  margin-bottom: 8px;
+}
+
+.login-support-modal__info-card a {
+  color: #d00858;
+  font-weight: 700;
+}
+
+.login-support-modal__info-card--divider {
+  padding-right: 24px;
+  border-right: 1px solid #ddd;
+}
+
+@media (max-width: 900px) {
+  .login-support-modal__form-row,
+  .login-support-modal__info-grid {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .login-support-modal__info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .login-support-modal__info-card--divider {
+    border-right: none;
+    padding-right: 0;
+  }
+}
