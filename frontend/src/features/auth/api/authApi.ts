@@ -1,6 +1,7 @@
 import type { LoginRequest, LoginResponse } from '../types/auth.types';
 
-export async function loginRequest(payload: LoginRequest): Promise<LoginResponse> {
+export async function loginRequest(_payload: LoginRequest): Promise<LoginResponse> {
+  void _payload;
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   return {

@@ -1,6 +1,18 @@
 import './EventsSidebar.css';
 
-const groups = [
+type EventItem = {
+  text: string;
+  amount: string;
+  success?: boolean;
+  positive?: boolean;
+};
+
+type EventGroup = {
+  title: string;
+  items: EventItem[];
+};
+
+const groups: EventGroup[] = [
   {
     title: 'Dziś',
     items: [{ text: 'Wydatki', amount: '117,27 PLN' }],
