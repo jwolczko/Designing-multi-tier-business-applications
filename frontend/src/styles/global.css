@@ -1,3 +1,18 @@
+:root {
+  --app-font-family: 'RobotoMono Nerd Font', 'Roboto Mono', 'CaskaydiaMono Nerd Font',
+    'JetBrainsMono Nerd Font', monospace;
+}
+
+html,
+body,
+#root,
+button,
+input,
+textarea,
+select {
+  font-family: var(--app-font-family);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
