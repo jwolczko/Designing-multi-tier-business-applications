@@ -1,4 +1,14 @@
 .landing-header {
+  background: #fff;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.landing-header__topbar {
+  padding: 12px;
+}
+
 .landing-header__audiences {
   display: flex;
   flex-wrap: wrap;
@@ -36,7 +46,7 @@
 }
 
 .landing-header__search-wrapper {
-  position: sticky
+  position: relative;
   width: 320px;
 }
 
@@ -67,6 +77,7 @@
   font-weight: 700;
   font-size: 14px;
   text-decoration: none;
+  border-radius: 0;
 }
 
 .landing-header__outline-btn {
@@ -76,8 +87,15 @@
 }
 
 .landing-header__login-btn {
+  border: none;
   background: #1f63c7;
   color: #fff;
+  cursor: pointer;
+}
+
+.landing-header__outline-btn,
+.landing-header__login-btn:hover {
+  filter: brightness(0.98);
 }
 
 .landing-header__menu {
@@ -87,6 +105,7 @@
   padding: 22px 12px 30px;
   color: #666;
   font-weight: 700;
+  background: #fff;
 }
 
 @media (max-width: 1200px) {

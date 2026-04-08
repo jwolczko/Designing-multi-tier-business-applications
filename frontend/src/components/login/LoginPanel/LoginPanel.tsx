@@ -4,27 +4,36 @@ import './LoginPanel.css';
 
 type LoginPanelProps = {
   onOpenSupport: () => void;
+  onClose?: () => void;
+  isModal?: boolean;
 };
 
-export function LoginPanel({ onOpenSupport }: LoginPanelProps) {
+export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPanelProps) {
   const navigate = useNavigate();
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    if (!password.trim()) return;
+    if (!login.trim() || !password.trim()) return;
+    onClose?.();
     navigate('/dashboard');
   };
 
   return (
-    <div className="login-panel">
-      <div className="login-panel__left">
-        <div className="login-panel__form">
+    <div className={`login-panel${isModal ? ' login-panel--modal' : ''}`}>
+      <div className="login-panel__form">
           <h1>Logowanie do systemu:</h1>
 
-          <div className="login-panel__login-row">
-            <span>Twój login:</span>
-            <strong>123456789</strong>
-          </div>
+          <label className="login-panel__label" htmlFor="login">
+            Twój login
+          </label>
+          <input
+            id="login"
+            className="login-panel__input"
+            type="text"
+            value={login}
+            onChange={(event) => setLogin(event.target.value)}
+          />
 
           <label className="login-panel__label" htmlFor="password">
             Hasło <span className="login-panel__hint"></span>
@@ -38,9 +47,15 @@ export function LoginPanel({ onOpenSupport }: LoginPanelProps) {
           />
 
           <div className="login-panel__buttons">
-            <Link className="login-panel__back-btn" to="/">
-              WSTECZ
-            </Link>
+            {onClose ? (
+              <button className="login-panel__back-btn" type="button" onClick={onClose}>
+                WSTECZ
+              </button>
+            ) : (
+              <Link className="login-panel__back-btn" to="/">
+                WSTECZ
+              </Link>
+            )}
             <button className="login-panel__submit-btn" type="button" onClick={handleSubmit}>
               ZALOGUJ
             </button>
@@ -49,7 +64,6 @@ export function LoginPanel({ onOpenSupport }: LoginPanelProps) {
           <button className="login-panel__support-link" type="button" onClick={onOpenSupport}>
             Problemy z logowaniem
           </button>
-        </div>
       </div>
     </div>
   );

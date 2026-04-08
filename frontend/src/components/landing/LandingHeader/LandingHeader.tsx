@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom';
 import './LandingHeader.css';
 
-export function LandingHeader() {
+type LandingHeaderProps = {
+  onOpenLogin: () => void;
+};
+
+export function LandingHeader({ onOpenLogin }: LandingHeaderProps) {
   return (
     <header className="landing-header">
       <div className="landing-header__topbar">
@@ -15,9 +18,9 @@ export function LandingHeader() {
         <button className="landing-header__outline-btn" type="button">
           ZAŁÓŻ KONTO
         </button>
-        <Link className="landing-header__login-btn" to="/login">
+        <button className="landing-header__login-btn" type="button" onClick={onOpenLogin}>
           LOGOWANIE
-        </Link>
+        </button>
       </div>
 
       <nav className="landing-header__menu">
