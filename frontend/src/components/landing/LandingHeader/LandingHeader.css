@@ -77,7 +77,7 @@
   font-weight: 700;
   font-size: 14px;
   text-decoration: none;
-  border-radius: 0;
+  border-radius: 10px;
 }
 
 .landing-header__outline-btn {
