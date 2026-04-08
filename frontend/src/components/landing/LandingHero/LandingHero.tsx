@@ -5,23 +5,50 @@ export function LandingHero() {
     <section className="landing-hero">
       <div className="landing-hero__grid">
         <div className="landing-hero__content">
-          <h1>Spokojnych i ciepłych Świąt Wielkanocnych</h1>
-          <p>Życzymy jak najwięcej radości, odpoczynku i dobrej pogody!</p>
+          <h1>Zyskaj do 400 zł premii za płatności kartą w telefonie</h1>
+          <p>Zamów kartę kredytową Visa Impresja (RRSO 18,28%) i spełnij warunki promocji</p>
+
+          <div className="landing-hero__actions">
+            <button className="landing-hero__primary-btn" type="button">
+              ZŁÓŻ WNIOSEK
+            </button>
+            <button className="landing-hero__secondary-btn" type="button">
+              DOWIEDZ SIĘ WIĘCEJ
+            </button>
+            <span className="landing-hero__legal-link">Koszt kredytu i nota prawna</span>
+          </div>
+
+          <button className="landing-hero__play-btn" type="button" aria-label="Odtwórz materiał promocyjny">
+            <span>▶</span>
+          </button>
         </div>
 
         <div className="landing-hero__visual">
-          <div className="landing-hero__eggs">
-            <div className="landing-hero__egg landing-hero__egg--pink">M</div>
-            <div className="landing-hero__egg landing-hero__egg--mint" />
-            <div className="landing-hero__egg landing-hero__egg--light" />
-            <div className="landing-hero__egg landing-hero__egg--rose" />
+          <div className="landing-hero__photo">
+            <div className="landing-hero__strokes" />
+            <div className="landing-hero__person">
+              <div className="landing-hero__arm landing-hero__arm--left" />
+              <div className="landing-hero__arm landing-hero__arm--right" />
+              <div className="landing-hero__body" />
+              <div className="landing-hero__head">
+                <div className="landing-hero__hair" />
+                <div className="landing-hero__glasses" />
+              </div>
+            </div>
+
+            <div className="landing-hero__badge">
+              <span>DO</span>
+              <strong>400</strong>
+              <em>ZŁ</em>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="landing-hero__cards">
         <div className="landing-hero__card landing-hero__card--dark">
-          <strong>ŚWIĄTECZNE ŻYCZENIA</strong>
+          <strong>KARTA KREDYTOWA VISA IMPRESJA (RRSO 18,28%)</strong>
+          <p>Promocja do 31.08.2026</p>
           <span>›</span>
         </div>
         <div className="landing-hero__card">
