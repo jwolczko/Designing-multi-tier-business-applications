@@ -1,37 +1,46 @@
-using Dapper;
-using Fortuna.Application.Abstractions.Persistence;
 using Fortuna.Application.Dashboard.Queries.GetDashboard;
+using Fortuna.ReadModel.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fortuna.ReadModel.Dashboard.Queries;
 
 public sealed class DashboardReadRepository : IDashboardReadRepository
 {
-    private readonly IReadDbConnectionFactory _connectionFactory;
+    private readonly ReadDbContext _dbContext;
 
-    public DashboardReadRepository(IReadDbConnectionFactory connectionFactory)
+    public DashboardReadRepository(ReadDbContext dbContext)
     {
-        _connectionFactory = connectionFactory;
+        _dbContext = dbContext;
     }
 
     public async Task<DashboardDto> GetDashboardAsync(Guid customerId, CancellationToken cancellationToken)
     {
-        using var connection = _connectionFactory.CreateConnection();
+        var products = await _dbContext.ProductTiles
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId)
+            .OrderBy(x => x.AccountName)
+            .Select(x => new ProductTileDto(
+                x.AccountId,
+                x.AccountName,
+                x.AccountNumber,
+                x.Balance,
+                x.Currency))
+            .ToListAsync(cancellationToken);
 
-        var products = (await connection.QueryAsync<ProductTileDto>(
-            @"SELECT AccountId, AccountName, AccountNumber, Balance, Currency
-              FROM [read].[ProductTile]
-              WHERE CustomerId = @customerId
-              ORDER BY AccountName;",
-            new { customerId }))
-            .AsList();
-
-        var events = (await connection.QueryAsync<TimelineEventDto>(
-            @"SELECT TOP 20 Id, EventDateUtc, EventType, Title, Amount, Currency, IsPositive
-              FROM [read].[TimelineEvent]
-              WHERE CustomerId = @customerId
-              ORDER BY EventDateUtc DESC;",
-            new { customerId }))
-            .AsList();
+        var events = await _dbContext.TimelineEvents
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId)
+            .OrderByDescending(x => x.EventDateUtc)
+            .Take(20)
+            .Select(x => new TimelineEventDto(
+                x.Id,
+                x.EventDateUtc,
+                x.EventType,
+                x.Title,
+                x.Amount,
+                x.Currency,
+                x.IsPositive))
+            .ToListAsync(cancellationToken);
 
         var totalBalance = products.Sum(x => x.Balance);
         var currency = products.FirstOrDefault()?.Currency ?? "PLN";

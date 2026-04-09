@@ -3,11 +3,8 @@ using Fortuna.Domain.Customers.Repositories;
 using Fortuna.Domain.Transfers.Repositories;
 using Fortuna.Infrastructure.Options;
 using Fortuna.Infrastructure.Persistence.Outbox;
-using Fortuna.Infrastructure.Persistence.Read;
 using Fortuna.Infrastructure.Persistence.Write;
 using Fortuna.Infrastructure.Persistence.Write.Repositories;
-using Fortuna.Infrastructure.Projections;
-using Fortuna.Infrastructure.Projections.Interfaces;
 using Fortuna.Infrastructure.Time;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,10 +30,8 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ITransferRepository, TransferRepository>();
 
         services.AddScoped<Fortuna.Application.Abstractions.Persistence.IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
-        services.AddScoped<Fortuna.Application.Abstractions.Persistence.IReadDbConnectionFactory, ReadDbConnectionFactory>();
         services.AddSingleton<Fortuna.Application.Abstractions.Clock.IDateTimeProvider, DateTimeProvider>();
 
-        services.AddScoped<IReadModelProjector, ProjectionDispatcher>();
         services.AddHostedService<OutboxMessageProcessor>();
 
         return services;

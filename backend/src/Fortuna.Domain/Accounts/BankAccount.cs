@@ -31,6 +31,7 @@ public sealed class BankAccount : Entity<BankAccountId>, IAggregateRoot
             id.Value,
             customerId.Value,
             accountNumber.Value,
+            accountName,
             Balance.Amount,
             currency));
     }

@@ -7,6 +7,7 @@ public sealed record BankAccountOpenedDomainEvent(
     Guid AccountId,
     Guid CustomerId,
     string AccountNumber,
+    string AccountName,
     decimal Balance,
     string Currency) : IDomainEvent
 {

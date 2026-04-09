@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddReadModel();
+builder.Services.AddReadModel(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
