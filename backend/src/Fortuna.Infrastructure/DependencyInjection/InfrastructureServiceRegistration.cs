@@ -1,6 +1,7 @@
 using Fortuna.Domain.Accounts.Repositories;
 using Fortuna.Domain.Customers.Repositories;
 using Fortuna.Domain.Transfers.Repositories;
+using Fortuna.Infrastructure.Auth;
 using Fortuna.Infrastructure.Options;
 using Fortuna.Infrastructure.Persistence.Outbox;
 using Fortuna.Infrastructure.Persistence.Write;
@@ -17,6 +18,7 @@ public static class InfrastructureServiceRegistration
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SectionName));
+        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
         var databaseOptions = configuration
             .GetSection(DatabaseOptions.SectionName)
@@ -30,6 +32,8 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ITransferRepository, TransferRepository>();
 
         services.AddScoped<Fortuna.Application.Abstractions.Persistence.IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
+        services.AddSingleton<Fortuna.Application.Abstractions.Security.IPasswordHasher, Pbkdf2PasswordHasher>();
+        services.AddSingleton<Fortuna.Application.Abstractions.Security.ITokenProvider, JwtTokenProvider>();
         services.AddSingleton<Fortuna.Application.Abstractions.Clock.IDateTimeProvider, DateTimeProvider>();
 
         services.AddHostedService<OutboxMessageProcessor>();

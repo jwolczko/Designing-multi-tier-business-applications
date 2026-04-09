@@ -20,7 +20,7 @@ public sealed class WithdrawMoneyCommandHandler : ICommandHandler<WithdrawMoneyC
     public async Task<Guid> Handle(WithdrawMoneyCommand command, CancellationToken cancellationToken)
     {
         var account = await _bankAccountRepository.GetByIdAsync(new BankAccountId(command.AccountId), cancellationToken);
-        if (account is null)
+        if (account is null || account.CustomerId.Value != command.CustomerId)
             throw new NotFoundException("Bank account not found.");
 
         account.Withdraw(new Money(command.Amount, command.Currency), command.Title);

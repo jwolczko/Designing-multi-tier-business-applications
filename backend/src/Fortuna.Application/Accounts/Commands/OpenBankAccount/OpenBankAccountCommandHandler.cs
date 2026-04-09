@@ -26,12 +26,13 @@ public sealed class OpenBankAccountCommandHandler : ICommandHandler<OpenBankAcco
 
     public async Task<Guid> Handle(OpenBankAccountCommand command, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetByIdAsync(new CustomerId(command.CustomerId), cancellationToken);
+        var customerId = new CustomerId(command.CustomerId);
+        var customer = await _customerRepository.GetByIdAsync(customerId, cancellationToken);
         if (customer is null)
             throw new NotFoundException("Customer not found.");
 
         var bankAccount = BankAccount.Open(
-            new CustomerId(command.CustomerId),
+            customerId,
             new AccountNumber(command.AccountNumber),
             command.AccountName,
             command.Currency);

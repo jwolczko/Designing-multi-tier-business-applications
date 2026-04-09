@@ -1,12 +1,15 @@
 using Fortuna.Application.Accounts.Commands.DepositMoney;
 using Fortuna.Application.Accounts.Commands.OpenBankAccount;
 using Fortuna.Application.Accounts.Commands.WithdrawMoney;
+using Fortuna.Api.Security;
 using Fortuna.Contracts.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fortuna.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/accounts")]
 public sealed class AccountsController : ControllerBase
 {
@@ -16,8 +19,10 @@ public sealed class AccountsController : ControllerBase
         [FromServices] OpenBankAccountCommandHandler handler,
         CancellationToken cancellationToken)
     {
+        var customerId = User.GetRequiredCustomerId();
+
         var accountId = await handler.Handle(
-            new OpenBankAccountCommand(request.CustomerId, request.AccountNumber, request.AccountName, request.Currency),
+            new OpenBankAccountCommand(customerId, request.AccountNumber, request.AccountName, request.Currency),
             cancellationToken);
 
         return Ok(accountId);
@@ -30,8 +35,10 @@ public sealed class AccountsController : ControllerBase
         [FromServices] DepositMoneyCommandHandler handler,
         CancellationToken cancellationToken)
     {
+        var customerId = User.GetRequiredCustomerId();
+
         var result = await handler.Handle(
-            new DepositMoneyCommand(accountId, request.Amount, request.Currency, request.Title),
+            new DepositMoneyCommand(customerId, accountId, request.Amount, request.Currency, request.Title),
             cancellationToken);
 
         return Ok(result);
@@ -44,8 +51,10 @@ public sealed class AccountsController : ControllerBase
         [FromServices] WithdrawMoneyCommandHandler handler,
         CancellationToken cancellationToken)
     {
+        var customerId = User.GetRequiredCustomerId();
+
         var result = await handler.Handle(
-            new WithdrawMoneyCommand(accountId, request.Amount, request.Currency, request.Title),
+            new WithdrawMoneyCommand(customerId, accountId, request.Amount, request.Currency, request.Title),
             cancellationToken);
 
         return Ok(result);

@@ -23,8 +23,10 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.OwnsOne(x => x.Email, owned =>
         {
             owned.Property(p => p.Value).HasColumnName("Email").HasMaxLength(200).IsRequired();
+            owned.HasIndex(p => p.Value).IsUnique();
         });
 
+        builder.Property(x => x.PasswordHash).HasMaxLength(512).IsRequired();
         builder.Property(x => x.CreatedAtUtc).IsRequired();
     }
 }

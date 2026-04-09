@@ -3,6 +3,7 @@ using Fortuna.Application.Abstractions.Messaging;
 namespace Fortuna.Application.Transfers.Commands.CreateTransfer;
 
 public sealed record CreateTransferCommand(
+    Guid CustomerId,
     Guid SourceAccountId,
     Guid TargetAccountId,
     decimal Amount,

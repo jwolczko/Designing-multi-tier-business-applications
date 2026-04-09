@@ -1,10 +1,13 @@
 using Fortuna.Application.Dashboard.Queries.GetDashboard;
+using Fortuna.Api.Security;
 using Fortuna.Contracts.Dashboard;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fortuna.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/dashboard")]
 public sealed class DashboardController : ControllerBase
 {
@@ -14,6 +17,10 @@ public sealed class DashboardController : ControllerBase
         [FromServices] GetDashboardQueryHandler handler,
         CancellationToken cancellationToken)
     {
+        var authenticatedCustomerId = User.GetRequiredCustomerId();
+        if (authenticatedCustomerId != customerId)
+            return Forbid();
+
         var dto = await handler.Handle(new GetDashboardQuery(customerId), cancellationToken);
 
         var response = new DashboardResponse(

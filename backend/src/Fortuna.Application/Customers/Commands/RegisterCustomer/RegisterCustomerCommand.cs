@@ -5,4 +5,5 @@ namespace Fortuna.Application.Customers.Commands.RegisterCustomer;
 public sealed record RegisterCustomerCommand(
     string FirstName,
     string LastName,
-    string Email) : ICommand<Guid>;
+    string Email,
+    string Password) : ICommand<Guid>;

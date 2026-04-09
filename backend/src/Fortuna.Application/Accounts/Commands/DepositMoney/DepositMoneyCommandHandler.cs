@@ -20,7 +20,7 @@ public sealed class DepositMoneyCommandHandler : ICommandHandler<DepositMoneyCom
     public async Task<Guid> Handle(DepositMoneyCommand command, CancellationToken cancellationToken)
     {
         var account = await _bankAccountRepository.GetByIdAsync(new BankAccountId(command.AccountId), cancellationToken);
-        if (account is null)
+        if (account is null || account.CustomerId.Value != command.CustomerId)
             throw new NotFoundException("Bank account not found.");
 
         account.Deposit(new Money(command.Amount, command.Currency), command.Title);
