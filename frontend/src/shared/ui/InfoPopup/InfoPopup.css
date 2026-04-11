@@ -1,0 +1,37 @@
+.info-popup__overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.48);
+  z-index: 2000;
+}
+
+.info-popup {
+  width: min(100%, 360px);
+  padding: 24px 20px 20px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  text-align: center;
+}
+
+.info-popup__message {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #162033;
+}
+
+.info-popup__button {
+  min-width: 110px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #c70059;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}

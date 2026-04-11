@@ -40,9 +40,14 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
     }
   };
 
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await handleSubmit();
+  };
+
   return (
     <div className={`login-panel${isModal ? ' login-panel--modal' : ''}`}>
-      <div className="login-panel__form">
+      <form className="login-panel__form" onSubmit={handleFormSubmit}>
           <h1>Logowanie do systemu:</h1>
 
           <label className="login-panel__label" htmlFor="login">
@@ -83,7 +88,7 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
                 WSTECZ
               </Link>
             )}
-            <button className="login-panel__submit-btn" type="button" onClick={handleSubmit} disabled={isSubmitting}>
+            <button className="login-panel__submit-btn" type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'LOGOWANIE...' : 'ZALOGUJ'}
             </button>
           </div>
@@ -91,7 +96,7 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
           <button className="login-panel__support-link" type="button" onClick={onOpenSupport}>
             Problemy z logowaniem
           </button>
-      </div>
+      </form>
     </div>
   );
 }
