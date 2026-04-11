@@ -1,12 +1,13 @@
 meta {
   name: Withdraw Money
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
   url: {{baseUrl}}/api/accounts/{{accountId}}/withdraw
   body: json
+  auth: none
 }
 
 body:json {

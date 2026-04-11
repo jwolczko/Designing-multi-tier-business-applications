@@ -1,7 +1,6 @@
-using Fortuna.Application.Accounts.Commands.DepositMoney;
+using Fortuna.Api.Security;
 using Fortuna.Application.Accounts.Commands.OpenBankAccount;
 using Fortuna.Application.Accounts.Commands.WithdrawMoney;
-using Fortuna.Api.Security;
 using Fortuna.Contracts.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,22 +25,6 @@ public sealed class AccountsController : ControllerBase
             cancellationToken);
 
         return Ok(accountId);
-    }
-
-    [HttpPost("{accountId:guid}/deposit")]
-    public async Task<ActionResult<Guid>> Deposit(
-        Guid accountId,
-        [FromBody] DepositMoneyRequest request,
-        [FromServices] DepositMoneyCommandHandler handler,
-        CancellationToken cancellationToken)
-    {
-        var customerId = User.GetRequiredCustomerId();
-
-        var result = await handler.Handle(
-            new DepositMoneyCommand(customerId, accountId, request.Amount, request.Currency, request.Title),
-            cancellationToken);
-
-        return Ok(result);
     }
 
     [HttpPost("{accountId:guid}/withdraw")]
