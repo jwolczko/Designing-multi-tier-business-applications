@@ -7,7 +7,7 @@ namespace Fortuna.UnitTests.Domain.Accounts;
 public sealed class MoneyTests
 {
     [Fact]
-    public void Add_Should_Return_New_Money_With_Summed_Amount()
+    public void AddShouldReturnNewMoneyWithSummedAmount()
     {
         var left = new Money(10m, "PLN");
         var right = new Money(5m, "PLN");

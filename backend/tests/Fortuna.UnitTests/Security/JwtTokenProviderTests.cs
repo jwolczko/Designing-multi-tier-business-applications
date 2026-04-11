@@ -12,7 +12,7 @@ namespace Fortuna.UnitTests.Security;
 public sealed class JwtTokenProviderTests
 {
     [Fact]
-    public void Create_Should_Emit_Token_Valid_For_Five_Minutes()
+    public void CreateShouldEmitTokenValidForFiveMinutes()
     {
         var clock = Substitute.For<IDateTimeProvider>();
         var now = new DateTime(2026, 4, 9, 10, 0, 0, DateTimeKind.Utc);

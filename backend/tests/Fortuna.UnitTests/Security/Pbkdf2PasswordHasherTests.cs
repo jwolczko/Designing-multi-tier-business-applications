@@ -7,7 +7,7 @@ namespace Fortuna.UnitTests.Security;
 public sealed class Pbkdf2PasswordHasherTests
 {
     [Fact]
-    public void Hash_And_Verify_Should_Succeed_For_Valid_Password()
+    public void HashAndVerifyShouldSucceedForValidPassword()
     {
         var sut = new Pbkdf2PasswordHasher();
 

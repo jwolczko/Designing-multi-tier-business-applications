@@ -15,7 +15,7 @@ public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task HealthEndpoint_Should_Return_Ok()
+    public async Task HealthEndpointShouldReturnOk()
     {
         var client = _factory.CreateClient();
 

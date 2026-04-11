@@ -12,7 +12,7 @@ namespace Fortuna.UnitTests.ReadModel;
 public sealed class ProjectionDispatcherTests
 {
     [Fact]
-    public async Task ProjectAsync_Should_Project_Opened_Account_Only_Once_For_Duplicate_Message()
+    public async Task ProjectAsyncShouldProjectOpenedAccountOnlyOnceForDuplicateMessage()
     {
         await using var dbContext = CreateDbContext();
         var sut = new ProjectionDispatcher(dbContext);
@@ -33,7 +33,7 @@ public sealed class ProjectionDispatcherTests
     }
 
     [Fact]
-    public async Task ProjectAsync_Should_Update_Balance_And_Create_Timeline_Entries()
+    public async Task ProjectAsyncShouldUpdateBalanceAndCreateTimelineEntries()
     {
         await using var dbContext = CreateDbContext();
         var sut = new ProjectionDispatcher(dbContext);

@@ -16,7 +16,7 @@ public sealed class AuthorizationTests : IClassFixture<WebApplicationFactory<Pro
     }
 
     [Fact]
-    public async Task Account_Endpoints_Should_Require_Bearer_Token()
+    public async Task AccountEndpointsShouldRequireBearerToken()
     {
         var client = _factory.CreateClient();
 

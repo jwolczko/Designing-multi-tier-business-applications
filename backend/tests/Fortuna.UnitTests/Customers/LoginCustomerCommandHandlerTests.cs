@@ -12,7 +12,7 @@ namespace Fortuna.UnitTests.Customers;
 public sealed class LoginCustomerCommandHandlerTests
 {
     [Fact]
-    public async Task Handle_Should_Return_Token_For_Valid_Credentials()
+    public async Task HandleShouldReturnTokenForValidCredentials()
     {
         var repository = Substitute.For<ICustomerRepository>();
         var passwordHasher = Substitute.For<IPasswordHasher>();
@@ -37,7 +37,7 @@ public sealed class LoginCustomerCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_Throw_When_Credentials_Are_Invalid()
+    public async Task HandleShouldThrowWhenCredentialsAreInvalid()
     {
         var repository = Substitute.For<ICustomerRepository>();
         var passwordHasher = Substitute.For<IPasswordHasher>();

@@ -10,7 +10,7 @@ namespace Fortuna.UnitTests.ReadModel;
 public sealed class DashboardReadRepositoryTests
 {
     [Fact]
-    public async Task GetDashboardAsync_Should_Return_Aggregated_Products_And_Events()
+    public async Task GetDashboardAsyncShouldReturnAggregatedProductsAndEvents()
     {
         await using var dbContext = CreateDbContext();
         var customerId = Guid.NewGuid();
