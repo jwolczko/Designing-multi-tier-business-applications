@@ -10,8 +10,6 @@ GO
 USE [FortunaReadDb];
 GO
 
-
-
 IF OBJECT_ID(N'[dbo].[ProductTile]', N'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[ProductTile]

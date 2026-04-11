@@ -173,7 +173,7 @@ IF NOT EXISTS (
       AND object_id = OBJECT_ID(N'[dbo].[OutboxMessages]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_OutboxMessages_ProcessedOnUtc]
+    CREATE NONCLUSTERED INDEX [IXOutboxMessagesProcessedOnUtc]
         ON [dbo].[OutboxMessages] ([ProcessedOnUtc] ASC);
 END
 GO
