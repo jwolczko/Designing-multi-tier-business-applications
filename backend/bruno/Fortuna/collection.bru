@@ -1,0 +1,39 @@
+meta {
+  name: Fortuna
+}
+
+auth {
+  mode: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+}
+
+docs {
+  # Fortuna API
+
+  Kolekcja Bruno wygenerowana na podstawie istniejących kontrolerów ASP.NET Core.
+
+  Domyślny flow:
+  1. `Customers/Register Customer`
+  2. `Customers/Login Customer`
+  3. `Accounts/Open Account`
+  4. `Dashboard/Get Dashboard`
+
+  Zmienne runtime ustawiane po odpowiedziach:
+  - `authToken`
+  - `customerId`
+  - `accountId`
+  - `customerEmail`
+  - `customerPassword`
+
+  Zmienne środowiskowe do uzupełnienia ręcznie przy transferach:
+  - `sourceAccountId`
+  - `targetAccountId`
+}

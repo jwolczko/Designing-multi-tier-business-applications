@@ -1,0 +1,39 @@
+meta {
+  name: Register Customer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/customers
+  body: json
+  auth: none
+}
+
+script:pre-request {
+  bru.setVar("customerEmail", `jan.kowalski+${Date.now()}@example.com`);
+  bru.setVar("customerPassword", bru.getEnvVar("customerPassword") || "Secret123!");
+}
+
+body:json {
+  {
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "{{customerEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:post-response {
+  const data = res.getBody();
+
+  if (res.getStatus() === 201 && data?.customerId) {
+    bru.setVar("customerId", data.customerId);
+  }
+}
+
+tests {
+  test("register returns 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

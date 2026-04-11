@@ -1,0 +1,32 @@
+meta {
+  name: Open Account
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/accounts
+  body: json
+}
+
+body:json {
+  {
+    "accountNumber": "12 3456 7890 1234 5678 9012 3456",
+    "accountName": "Konto osobiste",
+    "currency": "PLN"
+  }
+}
+
+script:post-response {
+  const data = res.getBody();
+
+  if (res.getStatus() === 200 && data) {
+    bru.setVar("accountId", data);
+  }
+}
+
+tests {
+  test("open account returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

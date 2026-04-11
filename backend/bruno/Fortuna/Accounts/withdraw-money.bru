@@ -1,0 +1,24 @@
+meta {
+  name: Withdraw Money
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/accounts/{{accountId}}/withdraw
+  body: json
+}
+
+body:json {
+  {
+    "amount": 100.00,
+    "currency": "PLN",
+    "title": "Wyplata testowa"
+  }
+}
+
+tests {
+  test("withdraw returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}
