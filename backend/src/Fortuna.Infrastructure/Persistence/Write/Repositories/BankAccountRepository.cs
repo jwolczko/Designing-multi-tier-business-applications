@@ -16,7 +16,7 @@ public sealed class BankAccountRepository : IBankAccountRepository
     public Task AddAsync(BankAccount bankAccount, CancellationToken cancellationToken)
         => _dbContext.BankAccounts.AddAsync(bankAccount, cancellationToken).AsTask();
 
-    public Task<BankAccount?> GetByIdAsync(BankAccountId bankAccountId, CancellationToken cancellationToken)
+    public Task<BankAccount?> GetByIdAsync(Guid bankAccountId, CancellationToken cancellationToken)
         => _dbContext.BankAccounts
             .Include(x => x.Transactions)
             .FirstOrDefaultAsync(x => x.Id == bankAccountId, cancellationToken);

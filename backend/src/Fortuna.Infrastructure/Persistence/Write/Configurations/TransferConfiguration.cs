@@ -15,12 +15,6 @@ public sealed class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, value => new TransferId(value));
 
-        builder.Property(x => x.SourceAccountId)
-            .HasConversion(x => x.Value, value => new BankAccountId(value));
-
-        builder.Property(x => x.TargetAccountId)
-            .HasConversion(x => x.Value, value => new BankAccountId(value));
-
         builder.OwnsOne(x => x.Amount, owned =>
         {
             owned.Property(p => p.Amount).HasColumnName("Amount").HasColumnType("decimal(18,2)").IsRequired();

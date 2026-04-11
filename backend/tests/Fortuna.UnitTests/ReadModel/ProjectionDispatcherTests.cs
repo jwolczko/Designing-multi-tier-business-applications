@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FluentAssertions;
 using Fortuna.Domain.Accounts.Events;
+using Fortuna.Domain.Products.Events;
 using Fortuna.Infrastructure.Persistence.Write;
 using Fortuna.ReadModel.Projections;
 using Fortuna.ReadModel.Persistence;
@@ -16,9 +17,17 @@ public sealed class ProjectionDispatcherTests
     {
         await using var dbContext = CreateDbContext();
         var sut = new ProjectionDispatcher(dbContext);
-        var accountId = Guid.NewGuid();
+        var productId = Guid.NewGuid();
         var customerId = Guid.NewGuid();
-        var domainEvent = new BankAccountOpenedDomainEvent(accountId, customerId, "PL001234", "Main account", 0m, "PLN");
+        var domainEvent = new ProductCreatedDomainEvent(
+            productId,
+            customerId,
+            "Account",
+            "Checking",
+            "Main account",
+            "PL001234",
+            0m,
+            "PLN");
         var message = CreateOutboxMessage(Guid.NewGuid(), domainEvent);
 
         await sut.ProjectAsync(message, CancellationToken.None);
@@ -28,8 +37,8 @@ public sealed class ProjectionDispatcherTests
         dbContext.ProcessedOutboxMessages.Should().ContainSingle();
 
         var productTile = await dbContext.ProductTiles.SingleAsync();
-        productTile.AccountName.Should().Be("Main account");
-        productTile.AccountNumber.Should().Be("PL001234");
+        productTile.ProductName.Should().Be("Main account");
+        productTile.ProductNumber.Should().Be("PL001234");
     }
 
     [Fact]
@@ -43,7 +52,7 @@ public sealed class ProjectionDispatcherTests
         await sut.ProjectAsync(
             CreateOutboxMessage(
                 Guid.NewGuid(),
-                new BankAccountOpenedDomainEvent(accountId, customerId, "PL009999", "Savings", 100m, "PLN")),
+                new ProductCreatedDomainEvent(accountId, customerId, "Account", "Savings", "Savings", "PL009999", 100m, "PLN")),
             CancellationToken.None);
 
         await sut.ProjectAsync(

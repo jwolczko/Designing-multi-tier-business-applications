@@ -18,11 +18,14 @@ public sealed class DashboardReadRepository : IDashboardReadRepository
         var products = await _dbContext.ProductTiles
             .AsNoTracking()
             .Where(x => x.CustomerId == customerId)
-            .OrderBy(x => x.AccountName)
+            .OrderBy(x => x.ProductCategory)
+            .ThenBy(x => x.ProductName)
             .Select(x => new ProductTileDto(
-                x.AccountId,
-                x.AccountName,
-                x.AccountNumber,
+                x.ProductId,
+                x.ProductCategory,
+                x.ProductType,
+                x.ProductName,
+                x.ProductNumber,
                 x.Balance,
                 x.Currency))
             .ToListAsync(cancellationToken);

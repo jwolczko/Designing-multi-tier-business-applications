@@ -28,9 +28,11 @@ public sealed class DashboardController : ControllerBase
             dto.TotalBalance,
             dto.Currency,
             dto.Products.Select(x => new ProductTileResponse(
-                x.AccountId,
-                x.AccountName,
-                x.AccountNumber,
+                x.ProductId,
+                x.ProductCategory,
+                x.ProductType,
+                x.ProductName,
+                x.ProductNumber,
                 x.Balance,
                 x.Currency)).ToList(),
             dto.Events.Select(x => new TimelineEventResponse(

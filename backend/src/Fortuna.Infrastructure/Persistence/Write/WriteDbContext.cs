@@ -3,7 +3,10 @@ using System.Text.Json;
 using Fortuna.Application.Abstractions.Persistence;
 using Fortuna.Domain.Abstractions;
 using Fortuna.Domain.Accounts;
+using Fortuna.Domain.Cards;
 using Fortuna.Domain.Customers;
+using Fortuna.Domain.Loans;
+using Fortuna.Domain.Products;
 using Fortuna.Domain.Transfers;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +19,10 @@ public sealed class WriteDbContext : DbContext, IUnitOfWork
     }
 
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Product> Products => Set<Product>();
     public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
+    public DbSet<Card> Cards => Set<Card>();
+    public DbSet<Loan> Loans => Set<Loan>();
     public DbSet<TransactionEntry> Transactions => Set<TransactionEntry>();
     public DbSet<Transfer> Transfers => Set<Transfer>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();

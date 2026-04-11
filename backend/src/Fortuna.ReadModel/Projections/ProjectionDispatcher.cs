@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Fortuna.Domain.Accounts.Events;
+using Fortuna.Domain.Products.Events;
 using Fortuna.Domain.Transfers.Events;
 using Fortuna.Infrastructure.Persistence.Write;
 using Fortuna.Infrastructure.Projections.Interfaces;
@@ -29,9 +30,9 @@ public sealed class ProjectionDispatcher : IReadModelProjector
             return;
         }
 
-        if (IsEventType<BankAccountOpenedDomainEvent>(message.Type))
+        if (IsEventType<ProductCreatedDomainEvent>(message.Type))
         {
-            await ProjectBankAccountOpenedAsync(message, cancellationToken);
+            await ProjectProductCreatedAsync(message, cancellationToken);
         }
         else if (IsEventType<MoneyDepositedDomainEvent>(message.Type))
         {
@@ -51,24 +52,26 @@ public sealed class ProjectionDispatcher : IReadModelProjector
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task ProjectBankAccountOpenedAsync(OutboxMessage message, CancellationToken cancellationToken)
+    private async Task ProjectProductCreatedAsync(OutboxMessage message, CancellationToken cancellationToken)
     {
-        var domainEvent = Deserialize<BankAccountOpenedDomainEvent>(message.Payload);
+        var domainEvent = Deserialize<ProductCreatedDomainEvent>(message.Payload);
 
-        var productTile = await _dbContext.ProductTiles.FindAsync([domainEvent.AccountId], cancellationToken);
+        var productTile = await _dbContext.ProductTiles.FindAsync([domainEvent.ProductId], cancellationToken);
         if (productTile is null)
         {
             productTile = new ProductTileReadModel
             {
-                AccountId = domainEvent.AccountId
+                ProductId = domainEvent.ProductId
             };
 
             _dbContext.ProductTiles.Add(productTile);
         }
 
         productTile.CustomerId = domainEvent.CustomerId;
-        productTile.AccountName = domainEvent.AccountName;
-        productTile.AccountNumber = domainEvent.AccountNumber;
+        productTile.ProductCategory = domainEvent.ProductCategory;
+        productTile.ProductType = domainEvent.ProductType;
+        productTile.ProductName = domainEvent.ProductName;
+        productTile.ProductNumber = domainEvent.ProductNumber;
         productTile.Balance = domainEvent.Balance;
         productTile.Currency = domainEvent.Currency;
     }
@@ -84,7 +87,7 @@ public sealed class ProjectionDispatcher : IReadModelProjector
         {
             Id = message.Id,
             CustomerId = domainEvent.CustomerId,
-            AccountId = domainEvent.AccountId,
+            ProductId = domainEvent.AccountId,
             EventDateUtc = domainEvent.OccurredOnUtc,
             EventType = "deposit",
             Title = domainEvent.Title,
@@ -105,7 +108,7 @@ public sealed class ProjectionDispatcher : IReadModelProjector
         {
             Id = message.Id,
             CustomerId = domainEvent.CustomerId,
-            AccountId = domainEvent.AccountId,
+            ProductId = domainEvent.AccountId,
             EventDateUtc = domainEvent.OccurredOnUtc,
             EventType = "withdrawal",
             Title = domainEvent.Title,
@@ -115,11 +118,11 @@ public sealed class ProjectionDispatcher : IReadModelProjector
         });
     }
 
-    private async Task<ProductTileReadModel> GetRequiredProductTileAsync(Guid accountId, CancellationToken cancellationToken)
+    private async Task<ProductTileReadModel> GetRequiredProductTileAsync(Guid productId, CancellationToken cancellationToken)
     {
-        var productTile = await _dbContext.ProductTiles.FindAsync([accountId], cancellationToken);
+        var productTile = await _dbContext.ProductTiles.FindAsync([productId], cancellationToken);
 
-        return productTile ?? throw new InvalidOperationException($"Product tile for account '{accountId}' was not found.");
+        return productTile ?? throw new InvalidOperationException($"Product tile for product '{productId}' was not found.");
     }
 
     private static bool IsEventType<TEvent>(string typeName)

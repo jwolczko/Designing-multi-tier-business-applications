@@ -1,10 +1,11 @@
 using Fortuna.Domain.Abstractions;
 using Fortuna.Domain.Accounts.Events;
 using Fortuna.Domain.Customers;
+using Fortuna.Domain.Products;
 
 namespace Fortuna.Domain.Accounts;
 
-public sealed class BankAccount : Entity<BankAccountId>, IAggregateRoot
+public sealed class BankAccount : Product, IAggregateRoot
 {
     private readonly List<TransactionEntry> _transactions = [];
 
@@ -13,51 +14,49 @@ public sealed class BankAccount : Entity<BankAccountId>, IAggregateRoot
     }
 
     private BankAccount(
-        BankAccountId id,
+        Guid id,
         CustomerId customerId,
         AccountNumber accountNumber,
         string accountName,
-        string currency) : base(id)
+        string currency,
+        BankAccountType accountType) : base(
+        id,
+        customerId,
+        accountName,
+        accountNumber.Value,
+        currency,
+        ProductCategory.BankAccount,
+        ProductStatus.Active)
     {
-        CustomerId = customerId;
         AccountNumber = accountNumber;
-        AccountName = accountName;
-        Currency = currency;
-        Balance = Money.Zero(currency);
-        Status = AccountStatus.Active;
-        CreatedAtUtc = DateTime.UtcNow;
-
-        AddDomainEvent(new BankAccountOpenedDomainEvent(
-            id.Value,
-            customerId.Value,
-            accountNumber.Value,
-            accountName,
-            Balance.Amount,
-            currency));
+        AccountType = accountType;
+        RaiseCreatedDomainEvent(accountType.ToString());
     }
 
-    public CustomerId CustomerId { get; private set; } = default!;
     public AccountNumber AccountNumber { get; private set; } = default!;
-    public string AccountName { get; private set; } = default!;
-    public string Currency { get; private set; } = default!;
-    public Money Balance { get; private set; } = default!;
-    public AccountStatus Status { get; private set; }
-    public DateTime CreatedAtUtc { get; private set; }
+    public string AccountName => ProductName;
+    public new AccountStatus Status => (AccountStatus)(int)base.Status;
+    public BankAccountType AccountType { get; private set; }
     public IReadOnlyCollection<TransactionEntry> Transactions => _transactions;
 
-    public static BankAccount Open(CustomerId customerId, AccountNumber accountNumber, string accountName, string currency)
-        => new(BankAccountId.New(), customerId, accountNumber, accountName, currency);
+    public static BankAccount Open(
+        CustomerId customerId,
+        AccountNumber accountNumber,
+        string accountName,
+        string currency,
+        BankAccountType accountType)
+        => new(Guid.NewGuid(), customerId, accountNumber, accountName, currency, accountType);
 
     public void Deposit(Money amount, string title, Guid? transferId = null)
     {
         EnsureActive();
         EnsurePositive(amount);
 
-        Balance = Balance.Add(amount);
+        SetBalance(Balance.Add(amount));
         _transactions.Add(TransactionEntry.CreateCredit(Id, amount, title, transferId));
 
         AddDomainEvent(new MoneyDepositedDomainEvent(
-            Id.Value,
+            Id,
             CustomerId.Value,
             amount.Amount,
             amount.Currency,
@@ -72,11 +71,11 @@ public sealed class BankAccount : Entity<BankAccountId>, IAggregateRoot
         if (Balance.Amount < amount.Amount)
             throw new DomainException("Insufficient funds.");
 
-        Balance = Balance.Subtract(amount);
+        SetBalance(Balance.Subtract(amount));
         _transactions.Add(TransactionEntry.CreateDebit(Id, amount, title, transferId));
 
         AddDomainEvent(new MoneyWithdrawnDomainEvent(
-            Id.Value,
+            Id,
             CustomerId.Value,
             amount.Amount,
             amount.Currency,
@@ -85,7 +84,7 @@ public sealed class BankAccount : Entity<BankAccountId>, IAggregateRoot
 
     private void EnsureActive()
     {
-        if (Status != AccountStatus.Active)
+        if (base.Status != ProductStatus.Active)
             throw new DomainException("Account is not active.");
     }
 

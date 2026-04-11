@@ -1,9 +1,11 @@
 namespace Fortuna.Application.Dashboard.Queries.GetDashboard;
 
 public sealed record ProductTileDto(
-    Guid AccountId,
-    string AccountName,
-    string AccountNumber,
+    Guid ProductId,
+    string ProductCategory,
+    string ProductType,
+    string ProductName,
+    string ProductNumber,
     decimal Balance,
     string Currency);
 

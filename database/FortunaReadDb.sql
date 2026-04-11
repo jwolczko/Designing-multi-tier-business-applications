@@ -10,17 +10,20 @@ GO
 USE [FortunaReadDb];
 GO
 
+
 IF OBJECT_ID(N'[dbo].[ProductTile]', N'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[ProductTile]
     (
-        [AccountId] UNIQUEIDENTIFIER NOT NULL,
+        [ProductId] UNIQUEIDENTIFIER NOT NULL,
         [CustomerId] UNIQUEIDENTIFIER NOT NULL,
-        [AccountName] NVARCHAR(200) NOT NULL,
-        [AccountNumber] NVARCHAR(34) NOT NULL,
+        [ProductCategory] NVARCHAR(50) NOT NULL,
+        [ProductType] NVARCHAR(50) NOT NULL,
+        [ProductName] NVARCHAR(200) NOT NULL,
+        [ProductNumber] NVARCHAR(64) NOT NULL,
         [Balance] DECIMAL(18, 2) NOT NULL,
         [Currency] NVARCHAR(3) NOT NULL,
-        CONSTRAINT [PKreadProductTile] PRIMARY KEY CLUSTERED ([AccountId] ASC)
+        CONSTRAINT [PKreadProductTile] PRIMARY KEY CLUSTERED ([ProductId] ASC)
     );
 END
 GO
@@ -31,7 +34,7 @@ BEGIN
     (
         [Id] UNIQUEIDENTIFIER NOT NULL,
         [CustomerId] UNIQUEIDENTIFIER NOT NULL,
-        [AccountId] UNIQUEIDENTIFIER NULL,
+        [ProductId] UNIQUEIDENTIFIER NULL,
         [EventDateUtc] DATETIME2(7) NOT NULL,
         [EventType] NVARCHAR(100) NOT NULL,
         [Title] NVARCHAR(300) NOT NULL,

@@ -25,20 +25,27 @@ BEGIN
 END
 GO
 
-IF OBJECT_ID(N'[dbo].[BankAccounts]', N'U') IS NULL
+IF OBJECT_ID(N'[dbo].[Products]', N'U') IS NULL
 BEGIN
-    CREATE TABLE [dbo].[BankAccounts]
+    CREATE TABLE [dbo].[Products]
     (
         [Id] UNIQUEIDENTIFIER NOT NULL,
         [CustomerId] UNIQUEIDENTIFIER NOT NULL,
-        [AccountNumber] NVARCHAR(34) NOT NULL,
-        [AccountName] NVARCHAR(200) NOT NULL,
+        [Discriminator] NVARCHAR(50) NOT NULL,
+        [ProductCategory] INT NOT NULL,
+        [ProductName] NVARCHAR(200) NOT NULL,
+        [ProductNumber] NVARCHAR(64) NOT NULL,
+        [AccountNumber] NVARCHAR(34) NULL,
+        [BankAccountType] INT NULL,
+        [CardType] INT NULL,
+        [LoanType] INT NULL,
         [Balance] DECIMAL(18, 2) NOT NULL,
+        [BalanceCurrency] NVARCHAR(3) NOT NULL,
         [Currency] NVARCHAR(3) NOT NULL,
         [Status] INT NOT NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL,
-        CONSTRAINT [PKBankAccounts] PRIMARY KEY CLUSTERED ([Id] ASC),
-        CONSTRAINT [FKBankAccountsCustomers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers]([Id])
+        CONSTRAINT [PKProducts] PRIMARY KEY CLUSTERED ([Id] ASC),
+        CONSTRAINT [FKProductsCustomers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers]([Id])
     );
 END
 GO
@@ -56,7 +63,7 @@ BEGIN
         [Title] NVARCHAR(300) NOT NULL,
         [BookedAtUtc] DATETIME2(7) NOT NULL,
         CONSTRAINT [PKTransactions] PRIMARY KEY CLUSTERED ([Id] ASC),
-        CONSTRAINT [FKTransactionsBankAccounts] FOREIGN KEY ([BankAccountId]) REFERENCES [dbo].[BankAccounts]([Id])
+        CONSTRAINT [FKTransactionsProducts] FOREIGN KEY ([BankAccountId]) REFERENCES [dbo].[Products]([Id])
     );
 END
 GO
@@ -74,7 +81,9 @@ BEGIN
         [Status] INT NOT NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL,
         [CompletedAtUtc] DATETIME2(7) NULL,
-        CONSTRAINT [PKTransfers] PRIMARY KEY CLUSTERED ([Id] ASC)
+        CONSTRAINT [PKTransfers] PRIMARY KEY CLUSTERED ([Id] ASC),
+        CONSTRAINT [FKTransfersSourceProduct] FOREIGN KEY ([SourceAccountId]) REFERENCES [dbo].[Products]([Id]),
+        CONSTRAINT [FKTransfersTargetProduct] FOREIGN KEY ([TargetAccountId]) REFERENCES [dbo].[Products]([Id])
     );
 END
 GO
@@ -109,12 +118,24 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IXBankAccountsCustomerId'
-      AND object_id = OBJECT_ID(N'[dbo].[BankAccounts]')
+    WHERE name = N'IXProductsCustomerId'
+      AND object_id = OBJECT_ID(N'[dbo].[Products]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IXdboBankAccounts_CustomerId]
-        ON [dbo].[BankAccounts] ([CustomerId] ASC);
+    CREATE NONCLUSTERED INDEX [IXProductsCustomerId]
+        ON [dbo].[Products] ([CustomerId] ASC);
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = N'IXProductsProductNumber'
+      AND object_id = OBJECT_ID(N'[dbo].[Products]')
+)
+BEGIN
+    CREATE UNIQUE NONCLUSTERED INDEX [IXProductsProductNumber]
+        ON [dbo].[Products] ([ProductNumber] ASC);
 END
 GO
 

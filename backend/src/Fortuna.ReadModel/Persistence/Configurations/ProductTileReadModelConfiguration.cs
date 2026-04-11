@@ -9,12 +9,14 @@ public sealed class ProductTileReadModelConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<ProductTileReadModel> builder)
     {
         builder.ToTable("ProductTile", "read");
-        builder.HasKey(x => x.AccountId);
+        builder.HasKey(x => x.ProductId);
 
-        builder.Property(x => x.AccountId).ValueGeneratedNever();
+        builder.Property(x => x.ProductId).ValueGeneratedNever();
         builder.Property(x => x.CustomerId).IsRequired();
-        builder.Property(x => x.AccountName).HasMaxLength(200).IsRequired();
-        builder.Property(x => x.AccountNumber).HasMaxLength(34).IsRequired();
+        builder.Property(x => x.ProductCategory).HasMaxLength(50).IsRequired();
+        builder.Property(x => x.ProductType).HasMaxLength(50).IsRequired();
+        builder.Property(x => x.ProductName).HasMaxLength(200).IsRequired();
+        builder.Property(x => x.ProductNumber).HasMaxLength(64).IsRequired();
         builder.Property(x => x.Balance).HasColumnType("decimal(18,2)").IsRequired();
         builder.Property(x => x.Currency).HasMaxLength(3).IsRequired();
 

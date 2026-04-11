@@ -18,19 +18,23 @@ public sealed class DashboardReadRepositoryTests
         dbContext.ProductTiles.AddRange(
             new ProductTileReadModel
             {
-                AccountId = Guid.NewGuid(),
+                ProductId = Guid.NewGuid(),
                 CustomerId = customerId,
-                AccountName = "Daily",
-                AccountNumber = "PL001",
+                ProductCategory = "Account",
+                ProductType = "Checking",
+                ProductName = "Daily",
+                ProductNumber = "PL001",
                 Balance = 50m,
                 Currency = "PLN"
             },
             new ProductTileReadModel
             {
-                AccountId = Guid.NewGuid(),
+                ProductId = Guid.NewGuid(),
                 CustomerId = customerId,
-                AccountName = "Savings",
-                AccountNumber = "PL002",
+                ProductCategory = "Account",
+                ProductType = "Savings",
+                ProductName = "Savings",
+                ProductNumber = "PL002",
                 Balance = 150m,
                 Currency = "PLN"
             });
@@ -56,7 +60,7 @@ public sealed class DashboardReadRepositoryTests
         result.TotalBalance.Should().Be(200m);
         result.Currency.Should().Be("PLN");
         result.Products.Should().HaveCount(2);
-        result.Products.Select(x => x.AccountName).Should().ContainInOrder("Daily", "Savings");
+        result.Products.Select(x => x.ProductName).Should().ContainInOrder("Daily", "Savings");
         result.Events.Should().ContainSingle();
     }
 

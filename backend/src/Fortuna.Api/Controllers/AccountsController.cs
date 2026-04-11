@@ -22,7 +22,7 @@ public sealed class AccountsController : ControllerBase
         var customerId = User.GetRequiredCustomerId();
 
         var accountId = await handler.Handle(
-            new OpenBankAccountCommand(customerId, request.AccountNumber, request.AccountName, request.Currency),
+            new OpenBankAccountCommand(customerId, request.AccountNumber, request.AccountName, request.Currency, request.AccountType),
             cancellationToken);
 
         return Ok(accountId);

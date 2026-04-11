@@ -3,6 +3,7 @@ using Fortuna.Domain.Customers;
 
 namespace Fortuna.Domain.Accounts.Events;
 
+[Obsolete("Use ProductCreatedDomainEvent instead.")]
 public sealed record BankAccountOpenedDomainEvent(
     Guid AccountId,
     Guid CustomerId,

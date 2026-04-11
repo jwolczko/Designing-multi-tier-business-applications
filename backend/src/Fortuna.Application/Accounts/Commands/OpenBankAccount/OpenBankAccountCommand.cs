@@ -6,4 +6,5 @@ public sealed record OpenBankAccountCommand(
     Guid CustomerId,
     string AccountNumber,
     string AccountName,
-    string Currency) : ICommand<Guid>;
+    string Currency,
+    int AccountType) : ICommand<Guid>;

@@ -29,8 +29,8 @@ public sealed class CreateTransferCommandHandler : ICommandHandler<CreateTransfe
         if (command.SourceAccountId == command.TargetAccountId)
             throw new ValidationException("Source and target account must be different.");
 
-        var source = await _bankAccountRepository.GetByIdAsync(new BankAccountId(command.SourceAccountId), cancellationToken);
-        var target = await _bankAccountRepository.GetByIdAsync(new BankAccountId(command.TargetAccountId), cancellationToken);
+        var source = await _bankAccountRepository.GetByIdAsync(command.SourceAccountId, cancellationToken);
+        var target = await _bankAccountRepository.GetByIdAsync(command.TargetAccountId, cancellationToken);
 
         if (source is null || target is null || source.CustomerId.Value != command.CustomerId)
             throw new NotFoundException("Source or target account not found.");

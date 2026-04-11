@@ -13,6 +13,7 @@ public sealed class TimelineEventReadModelConfiguration : IEntityTypeConfigurati
 
         builder.Property(x => x.Id).ValueGeneratedNever();
         builder.Property(x => x.CustomerId).IsRequired();
+        builder.Property(x => x.ProductId);
         builder.Property(x => x.EventDateUtc).IsRequired();
         builder.Property(x => x.EventType).HasMaxLength(100).IsRequired();
         builder.Property(x => x.Title).HasMaxLength(300).IsRequired();

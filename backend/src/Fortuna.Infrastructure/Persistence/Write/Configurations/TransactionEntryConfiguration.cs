@@ -14,9 +14,6 @@ public sealed class TransactionEntryConfiguration : IEntityTypeConfiguration<Tra
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, value => new TransactionId(value));
 
-        builder.Property(x => x.BankAccountId)
-            .HasConversion(x => x.Value, value => new BankAccountId(value));
-
         builder.OwnsOne(x => x.Amount, owned =>
         {
             owned.Property(p => p.Amount).HasColumnName("Amount").HasColumnType("decimal(18,2)").IsRequired();

@@ -35,11 +35,12 @@ public sealed class OpenBankAccountCommandHandler : ICommandHandler<OpenBankAcco
             customerId,
             new AccountNumber(command.AccountNumber),
             command.AccountName,
-            command.Currency);
+            command.Currency,
+            (BankAccountType)command.AccountType);
 
         await _bankAccountRepository.AddAsync(bankAccount, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return bankAccount.Id.Value;
+        return bankAccount.Id;
     }
 }
