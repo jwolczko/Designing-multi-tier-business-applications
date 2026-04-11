@@ -101,7 +101,7 @@ IF NOT EXISTS (
       AND object_id = OBJECT_ID(N'[dbo].[Customers]')
 )
 BEGIN
-    CREATE UNIQUE NONCLUSTERED INDEX [IX_dbo_Customers_Email]
+    CREATE UNIQUE NONCLUSTERED INDEX [IXCustomersEmail]
         ON [dbo].[Customers] ([Email] ASC);
 END
 GO
@@ -113,7 +113,7 @@ IF NOT EXISTS (
       AND object_id = OBJECT_ID(N'[dbo].[BankAccounts]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_BankAccounts_CustomerId]
+    CREATE NONCLUSTERED INDEX [IXdboBankAccounts_CustomerId]
         ON [dbo].[BankAccounts] ([CustomerId] ASC);
 END
 GO
