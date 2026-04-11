@@ -37,8 +37,8 @@ public sealed class TransfersController : ControllerBase
     }
 
     [HttpPost("incoming")]
-    public async Task<ActionResult<Guid>> SimulateIncoming(
-        [FromBody] SimulateIncomingTransferRequest request,
+    public async Task<ActionResult<Guid>> Incoming(
+        [FromBody] IncomingTransferRequest request,
         [FromServices] DepositMoneyCommandHandler handler,
         CancellationToken cancellationToken)
     {

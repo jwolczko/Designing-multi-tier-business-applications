@@ -64,6 +64,35 @@ public sealed class DashboardReadRepositoryTests
         result.Events.Should().ContainSingle();
     }
 
+    [Fact]
+    public async Task GetDashboardAsyncShouldReturnActualBalanceForDebitCard()
+    {
+        await using var dbContext = CreateDbContext();
+        var customerId = Guid.NewGuid();
+
+        dbContext.ProductTiles.Add(new ProductTileReadModel
+        {
+            ProductId = Guid.NewGuid(),
+            CustomerId = customerId,
+            ProductCategory = "Card",
+            ProductType = "Debit",
+            ProductName = "Debit Card",
+            ProductNumber = "CARD001",
+            Balance = 125m,
+            Currency = "PLN"
+        });
+
+        await dbContext.SaveChangesAsync();
+
+        var sut = new DashboardReadRepository(dbContext);
+
+        var result = await sut.GetDashboardAsync(customerId, CancellationToken.None);
+
+        result.TotalBalance.Should().Be(125m);
+        result.Products.Should().ContainSingle();
+        result.Products.Single().Balance.Should().Be(125m);
+    }
+
     private static ReadDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<ReadDbContext>()

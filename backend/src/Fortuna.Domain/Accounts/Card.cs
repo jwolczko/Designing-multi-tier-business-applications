@@ -1,5 +1,6 @@
 using Fortuna.Domain.Abstractions;
 using Fortuna.Domain.Accounts;
+using Fortuna.Domain.Accounts.Events;
 using Fortuna.Domain.Customers;
 using Fortuna.Domain.Products;
 
@@ -48,6 +49,43 @@ public sealed class Card : Product, IAggregateRoot
 
     public CardType CardType { get; private set; }
     public decimal? CreditLimit { get; private set; }
+
+    public void Deposit(Money amount, string title, Guid? transferId = null)
+    {
+        EnsureActive("Card is not active.");
+        EnsurePositive(amount);
+
+        var newBalance = Balance.Add(amount);
+        if (CardType == CardType.Credit && CreditLimit.HasValue && newBalance.Amount > CreditLimit.Value)
+            throw new DomainException("Credit card limit cannot be exceeded.");
+
+        SetBalance(newBalance);
+
+        AddDomainEvent(new MoneyDepositedDomainEvent(
+            Id,
+            CustomerId.Value,
+            amount.Amount,
+            amount.Currency,
+            title));
+    }
+
+    public void Withdraw(Money amount, string title, Guid? transferId = null)
+    {
+        EnsureActive("Card is not active.");
+        EnsurePositive(amount);
+
+        if (Balance.Amount < amount.Amount)
+            throw new DomainException("Insufficient funds.");
+
+        SetBalance(Balance.Subtract(amount));
+
+        AddDomainEvent(new MoneyWithdrawnDomainEvent(
+            Id,
+            CustomerId.Value,
+            amount.Amount,
+            amount.Currency,
+            title));
+    }
 
     public static Card Create(
         CustomerId customerId,

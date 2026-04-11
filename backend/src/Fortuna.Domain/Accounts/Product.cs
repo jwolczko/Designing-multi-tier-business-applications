@@ -51,6 +51,18 @@ public abstract class Product : Entity<Guid>
     public ProductStatus Status { get; protected set; }
     public DateTime CreatedAtUtc { get; protected set; }
 
+    protected void EnsureActive(string errorMessage)
+    {
+        if (Status != ProductStatus.Active)
+            throw new DomainException(errorMessage);
+    }
+
+    protected static void EnsurePositive(Money amount)
+    {
+        if (amount.Amount <= 0)
+            throw new DomainException("Amount must be greater than zero.");
+    }
+
     protected void SetBalance(Money balance)
         => Balance = balance;
 

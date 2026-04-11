@@ -133,12 +133,19 @@ public sealed class CustomerRegistrationFlowTests : IClassFixture<WebApplication
     private sealed class FakeProductRepository : IProductRepository
     {
         public List<Product> AddedProducts { get; } = [];
+        private long _sequence;
 
         public Task AddAsync(Product product, CancellationToken cancellationToken)
         {
             AddedProducts.Add(product);
             return Task.CompletedTask;
         }
+
+        public Task<Product?> GetByIdAsync(Guid productId, CancellationToken cancellationToken)
+            => Task.FromResult<Product?>(AddedProducts.FirstOrDefault(x => x.Id == productId));
+
+        public Task<long> GetNextNumberSequenceAsync(CancellationToken cancellationToken)
+            => Task.FromResult(++_sequence);
     }
 
     private sealed class FakeUnitOfWork : IUnitOfWork

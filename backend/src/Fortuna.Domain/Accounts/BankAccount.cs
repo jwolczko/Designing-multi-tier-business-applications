@@ -56,7 +56,7 @@ public sealed class BankAccount : Product, IAggregateRoot
 
     public void Deposit(Money amount, string title, Guid? transferId = null)
     {
-        EnsureActive();
+        EnsureActive("Account is not active.");
         EnsurePositive(amount);
 
         SetBalance(Balance.Add(amount));
@@ -72,7 +72,7 @@ public sealed class BankAccount : Product, IAggregateRoot
 
     public void Withdraw(Money amount, string title, Guid? transferId = null)
     {
-        EnsureActive();
+        EnsureActive("Account is not active.");
         EnsurePositive(amount);
 
         if (Balance.Amount < amount.Amount)
@@ -87,17 +87,5 @@ public sealed class BankAccount : Product, IAggregateRoot
             amount.Amount,
             amount.Currency,
             title));
-    }
-
-    private void EnsureActive()
-    {
-        if (base.Status != ProductStatus.Active)
-            throw new DomainException("Account is not active.");
-    }
-
-    private static void EnsurePositive(Money amount)
-    {
-        if (amount.Amount <= 0)
-            throw new DomainException("Amount must be greater than zero.");
     }
 }

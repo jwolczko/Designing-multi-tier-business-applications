@@ -2,30 +2,44 @@ using Fortuna.Application.Abstractions.Messaging;
 using Fortuna.Application.Abstractions.Persistence;
 using Fortuna.Application.Common.Exceptions;
 using Fortuna.Domain.Accounts;
-using Fortuna.Domain.Accounts.Repositories;
+using Fortuna.Domain.Cards;
+using Fortuna.Domain.Products.Repositories;
 
 namespace Fortuna.Application.Accounts.Commands.DepositMoney;
 
 public sealed class DepositMoneyCommandHandler : ICommandHandler<DepositMoneyCommand, Guid>
 {
-    private readonly IBankAccountRepository _bankAccountRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DepositMoneyCommandHandler(IBankAccountRepository bankAccountRepository, IUnitOfWork unitOfWork)
+    public DepositMoneyCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
     {
-        _bankAccountRepository = bankAccountRepository;
+        _productRepository = productRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(DepositMoneyCommand command, CancellationToken cancellationToken)
     {
-        var account = await _bankAccountRepository.GetByIdAsync(command.AccountId, cancellationToken);
-        if (account is null || account.CustomerId.Value != command.CustomerId)
-            throw new NotFoundException("Bank account not found.");
+        var product = await _productRepository.GetByIdAsync(command.AccountId, cancellationToken);
+        if (product is null || product.CustomerId.Value != command.CustomerId)
+            throw new NotFoundException("Product not found.");
 
-        account.Deposit(new Money(command.Amount, command.Currency), command.Title);
+        var amount = new Money(command.Amount, command.Currency);
+
+        switch (product)
+        {
+            case BankAccount bankAccount:
+                bankAccount.Deposit(amount, command.Title);
+                break;
+            case Card card:
+                card.Deposit(amount, command.Title);
+                break;
+            default:
+                throw new ValidationException("Deposits are supported only for bank accounts and cards.");
+        }
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return account.Id;
+        return product.Id;
     }
 }

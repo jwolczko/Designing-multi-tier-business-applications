@@ -100,7 +100,8 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
 
       await createTransferRequest(token, payload);
       updateDashboardAfterTransfer(queryClient, customerId, payload);
-      void queryClient.invalidateQueries({ queryKey: ['dashboard', customerId] });
+      await queryClient.invalidateQueries({ queryKey: ['dashboard', customerId] });
+      await queryClient.refetchQueries({ queryKey: ['dashboard', customerId] });
 
       onClose();
     } catch (error) {
@@ -187,7 +188,9 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
                 className="transfer-panel__input"
                 type="text"
                 value={targetAccountNumber}
-                onChange={(event) => setTargetAccountNumber(event.target.value)}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                onChange={(event) => setTargetAccountNumber(event.target.value.replace(/\D+/g, ''))}
                 disabled={isSubmitting}
               />
 

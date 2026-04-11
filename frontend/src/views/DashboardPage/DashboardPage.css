@@ -7,6 +7,7 @@
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 0;
+  min-height: calc(100vh - 66px);
 }
 
 .dashboard-page__main {
@@ -16,6 +17,23 @@
 
 .dashboard-page__sidebar {
   padding: 20px;
+  max-height: calc(100vh - 66px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar-thumb {
+  background: #c8c8d2;
+  border-radius: 999px;
+  border: 2px solid #f3f3f5;
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .dashboard-page__settings-btn {
@@ -29,9 +47,15 @@
 @media (max-width: 1200px) {
   .dashboard-page__content {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .dashboard-page__main {
     border-right: none;
+  }
+
+  .dashboard-page__sidebar {
+    max-height: none;
+    overflow-y: visible;
   }
 }
