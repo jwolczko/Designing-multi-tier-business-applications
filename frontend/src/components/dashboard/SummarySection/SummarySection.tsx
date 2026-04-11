@@ -1,6 +1,20 @@
+import type { DashboardData } from '../../../features/dashboard/types/dashboard.types';
 import './SummarySection.css';
 
-export function SummarySection() {
+type SummarySectionProps = {
+  dashboard: DashboardData;
+};
+
+function formatMoney(amount: number, currency: string) {
+  return new Intl.NumberFormat('pl-PL', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount) + ` ${currency}`;
+}
+
+export function SummarySection({ dashboard }: SummarySectionProps) {
+  const featuredProduct = dashboard.products[0];
+
   return (
     <section className="summary-section">
       <div className="summary-section__header-row">
@@ -14,11 +28,11 @@ export function SummarySection() {
 
           <div className="summary-section__card">
             <div className="summary-section__card-header">
-              <h3>Konto bogatego programisty</h3>
+              <h3>{featuredProduct?.productName ?? 'Brak aktywnych produktow'}</h3>
             </div>
 
             <div className="summary-section__amount">
-              10 000 000,70 PLN
+              {formatMoney(dashboard.totalBalance, dashboard.currency)}
             </div>
 
             <div className="summary-section__actions">

@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 
 public partial class Program
 {
+    private const string FrontendCorsPolicy = "FrontendCorsPolicy";
+
     public static void Main(string[] args)
     {
         var app = BuildApplication(args);
@@ -23,9 +25,22 @@ public partial class Program
         var jwtOptions = builder.Configuration
             .GetSection(JwtOptions.SectionName)
             .Get<JwtOptions>() ?? new JwtOptions();
+        var allowedOrigins = builder.Configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>() ?? ["http://localhost:5173"];
 
         builder.Services.AddOpenApi();
         builder.Services.AddControllers();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(FrontendCorsPolicy, policy =>
+            {
+                policy
+                    .WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -52,6 +67,7 @@ public partial class Program
         var app = builder.Build();
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseCors(FrontendCorsPolicy);
         app.UseAuthentication();
         app.UseAuthorization();
 

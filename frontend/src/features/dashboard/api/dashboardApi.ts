@@ -1,11 +1,11 @@
 import type { DashboardData } from '../types/dashboard.types';
+import { apiRequest } from '../../../app/apiClient';
 
-export async function getDashboardData(): Promise<DashboardData> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
-
-  return {
-    totalBalance: '10 333,70 PLN',
-    accounts: 3,
-    events: 10,
-  };
+export async function getDashboardData(token: string, customerId: string): Promise<DashboardData> {
+  return apiRequest<DashboardData>(`/api/dashboard/${customerId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

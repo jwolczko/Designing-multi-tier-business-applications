@@ -1,16 +1,26 @@
 import type { LoginRequest, LoginResponse } from '../types/auth.types';
+import { apiRequest } from '../../../app/apiClient';
 
-export async function loginRequest(_payload: LoginRequest): Promise<LoginResponse> {
-  void _payload;
-  await new Promise((resolve) => setTimeout(resolve, 500));
+type LoginApiResponse = {
+  token: string;
+  expiresAtUtc: string;
+};
+
+export async function loginRequest(payload: LoginRequest): Promise<LoginResponse> {
+  const response = await apiRequest<LoginApiResponse>('/api/customers/login', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: payload.email,
+      password: payload.password,
+    }),
+  });
 
   return {
-    token: 'demo-token',
-    userName: 'Imię i Nazwisko',
-    customerId: 'customer-1',
+    token: response.token,
+    expiresAtUtc: response.expiresAtUtc,
   };
 }
 
 export async function logoutRequest(): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  return Promise.resolve();
 }

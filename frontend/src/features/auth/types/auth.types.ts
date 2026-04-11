@@ -1,17 +1,17 @@
 export type LoginRequest = {
-  login: string;
+  email: string;
   password: string;
 };
 
 export type LoginResponse = {
   token: string;
-  userName: string;
-  customerId: string;
+  expiresAtUtc: string;
 };
 
 export type AuthState = {
   token: string | null;
   userName: string | null;
   customerId: string | null;
+  expiresAtUtc: string | null;
   isAuthenticated: boolean;
 };
