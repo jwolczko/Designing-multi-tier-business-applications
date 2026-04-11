@@ -1,4 +1,5 @@
 import type { DashboardData } from '../../../features/dashboard/types/dashboard.types';
+import { getProductDisplayName } from '../../../features/dashboard/productPresentation';
 import './SummarySection.css';
 
 type SummarySectionProps = {
@@ -28,7 +29,7 @@ export function SummarySection({ dashboard }: SummarySectionProps) {
 
           <div className="summary-section__card">
             <div className="summary-section__card-header">
-              <h3>{featuredProduct?.productName ?? 'Brak aktywnych produktow'}</h3>
+              <h3>{featuredProduct ? getProductDisplayName(featuredProduct.productName) : 'Brak aktywnych produktow'}</h3>
             </div>
 
             <div className="summary-section__amount">

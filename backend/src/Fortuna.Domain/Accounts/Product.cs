@@ -16,6 +16,7 @@ public abstract class Product : Entity<Guid>
         CustomerId customerId,
         string productName,
         string productNumber,
+        long numberSequence,
         string currency,
         ProductCategory category,
         ProductStatus status) : base(id)
@@ -32,6 +33,7 @@ public abstract class Product : Entity<Guid>
         CustomerId = customerId;
         ProductName = productName.Trim();
         ProductNumber = productNumber.Replace(" ", string.Empty).Trim();
+        NumberSequence = numberSequence;
         Currency = currency.Trim().ToUpperInvariant();
         Category = category;
         Status = status;
@@ -42,6 +44,7 @@ public abstract class Product : Entity<Guid>
     public CustomerId CustomerId { get; protected set; } = default!;
     public string ProductName { get; protected set; } = string.Empty;
     public string ProductNumber { get; protected set; } = string.Empty;
+    public long NumberSequence { get; protected set; }
     public string Currency { get; protected set; } = string.Empty;
     public Money Balance { get; protected set; } = default!;
     public ProductCategory Category { get; protected set; }

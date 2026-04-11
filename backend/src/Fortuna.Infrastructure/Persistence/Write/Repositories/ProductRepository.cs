@@ -1,5 +1,6 @@
 using Fortuna.Domain.Products;
 using Fortuna.Domain.Products.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fortuna.Infrastructure.Persistence.Write.Repositories;
 
@@ -14,4 +15,12 @@ public sealed class ProductRepository : IProductRepository
 
     public Task AddAsync(Product product, CancellationToken cancellationToken)
         => _dbContext.Products.AddAsync(product, cancellationToken).AsTask();
+
+    public async Task<long> GetNextNumberSequenceAsync(CancellationToken cancellationToken)
+    {
+        var currentMaxSequence = await _dbContext.Products
+            .MaxAsync(x => (long?)x.NumberSequence, cancellationToken);
+
+        return (currentMaxSequence ?? 0) + 1;
+    }
 }

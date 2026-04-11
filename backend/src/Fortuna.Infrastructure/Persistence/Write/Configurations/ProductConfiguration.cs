@@ -22,6 +22,7 @@ public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(x => x.ProductName).HasMaxLength(200).IsRequired();
         builder.Property(x => x.ProductNumber).HasMaxLength(64).IsRequired();
+        builder.Property(x => x.NumberSequence).IsRequired();
         builder.Property(x => x.Currency).HasMaxLength(3).IsRequired();
         builder.Property(x => x.Category).HasColumnName("ProductCategory").IsRequired();
         builder.Property(x => x.Status).IsRequired();
@@ -43,5 +44,6 @@ public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.HasIndex(x => x.CustomerId);
         builder.HasIndex(x => x.ProductNumber).IsUnique();
+        builder.HasIndex(x => x.NumberSequence).IsUnique();
     }
 }

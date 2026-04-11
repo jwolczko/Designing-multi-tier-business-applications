@@ -16,6 +16,7 @@ public sealed class Loan : Product, IAggregateRoot
         CustomerId customerId,
         string productName,
         string productNumber,
+        long numberSequence,
         string currency,
         LoanType loanType,
         decimal initialBalance) : base(
@@ -23,6 +24,7 @@ public sealed class Loan : Product, IAggregateRoot
         customerId,
         productName,
         productNumber,
+        numberSequence,
         currency,
         ProductCategory.Loan,
         ProductStatus.Active)
@@ -38,8 +40,9 @@ public sealed class Loan : Product, IAggregateRoot
         CustomerId customerId,
         string productName,
         string productNumber,
+        long numberSequence,
         string currency,
         LoanType loanType,
         decimal initialBalance)
-        => new(Guid.NewGuid(), customerId, productName, productNumber, currency, loanType, initialBalance);
+        => new(Guid.NewGuid(), customerId, productName, productNumber, numberSequence, currency, loanType, initialBalance);
 }

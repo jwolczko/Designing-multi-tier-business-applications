@@ -2,6 +2,7 @@ using Fortuna.Application.Abstractions.Messaging;
 using Fortuna.Application.Abstractions.Persistence;
 using Fortuna.Application.Abstractions.Security;
 using Fortuna.Application.Common.Exceptions;
+using Fortuna.Application.Products;
 using Fortuna.Domain.Accounts;
 using Fortuna.Domain.Cards;
 using Fortuna.Domain.Customers;
@@ -51,7 +52,9 @@ public sealed class RegisterCustomerCommandHandler : ICommandHandler<RegisterCus
 
         await _customerRepository.AddAsync(customer, cancellationToken);
 
-        foreach (var product in CreateDefaultProducts(customer.Id, customerType))
+        var nextNumberSequence = await _productRepository.GetNextNumberSequenceAsync(cancellationToken);
+
+        foreach (var product in CreateDefaultProducts(customer.Id, customerType, nextNumberSequence))
         {
             await _productRepository.AddAsync(product, cancellationToken);
         }
@@ -72,34 +75,38 @@ public sealed class RegisterCustomerCommandHandler : ICommandHandler<RegisterCus
         throw new ValidationException("Customer type must be 'Normal' or 'Prestige'.");
     }
 
-    private static IEnumerable<Product> CreateDefaultProducts(CustomerId customerId, CustomerType customerType)
+    private static IEnumerable<Product> CreateDefaultProducts(CustomerId customerId, CustomerType customerType, long startingSequence)
     {
+        var currentSequence = startingSequence;
+
         yield return BankAccount.Open(
             customerId,
-            new AccountNumber(GenerateNumber("PL", 26)),
-            customerType == CustomerType.Prestige ? "Prestige Account" : "Standard Account",
+            new AccountNumber(ProductNumberGenerator.GenerateAccountNumber(currentSequence)),
+            customerType == CustomerType.Prestige ? "Konto Prestige" : "Konto Standardowe",
+            currentSequence,
             "PLN",
             customerType == CustomerType.Prestige ? BankAccountType.Prestige : BankAccountType.Standard);
+        currentSequence++;
 
         yield return Card.Create(
             customerId,
-            "Debit Card",
-            GenerateNumber("CARD", 24),
+            "Karta Debetowa",
+            ProductNumberGenerator.GenerateCardNumber(currentSequence),
+            currentSequence,
             "PLN",
             CardType.Debit);
+        currentSequence++;
 
         if (customerType == CustomerType.Prestige)
         {
             yield return Card.Create(
                 customerId,
-                "Credit Card",
-                GenerateNumber("CARD", 24),
+                "Karta Kredytowa",
+                ProductNumberGenerator.GenerateCardNumber(currentSequence),
+                currentSequence,
                 "PLN",
                 CardType.Credit,
                 10000m);
         }
     }
-
-    private static string GenerateNumber(string prefix, int guidCharacters)
-        => $"{prefix}{Guid.NewGuid():N}"[..(prefix.Length + guidCharacters)];
 }

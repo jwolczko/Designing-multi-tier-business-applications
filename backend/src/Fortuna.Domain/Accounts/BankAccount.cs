@@ -19,12 +19,14 @@ public sealed class BankAccount : Product, IAggregateRoot
         CustomerId customerId,
         AccountNumber accountNumber,
         string accountName,
+        long numberSequence,
         string currency,
         BankAccountType accountType) : base(
         id,
         customerId,
         accountName,
         accountNumber.Value,
+        numberSequence,
         currency,
         ProductCategory.BankAccount,
         ProductStatus.Active)
@@ -47,9 +49,10 @@ public sealed class BankAccount : Product, IAggregateRoot
         CustomerId customerId,
         AccountNumber accountNumber,
         string accountName,
+        long numberSequence,
         string currency,
         BankAccountType accountType)
-        => new(Guid.NewGuid(), customerId, accountNumber, accountName, currency, accountType);
+        => new(Guid.NewGuid(), customerId, accountNumber, accountName, numberSequence, currency, accountType);
 
     public void Deposit(Money amount, string title, Guid? transferId = null)
     {

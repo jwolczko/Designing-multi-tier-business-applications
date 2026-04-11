@@ -1,4 +1,5 @@
 using Fortuna.Domain.Abstractions;
+using Fortuna.Domain.Accounts;
 using Fortuna.Domain.Customers;
 using Fortuna.Domain.Products;
 
@@ -15,6 +16,7 @@ public sealed class Card : Product, IAggregateRoot
         CustomerId customerId,
         string productName,
         string productNumber,
+        long numberSequence,
         string currency,
         CardType cardType,
         decimal? creditLimit) : base(
@@ -22,6 +24,7 @@ public sealed class Card : Product, IAggregateRoot
         customerId,
         productName,
         productNumber,
+        numberSequence,
         currency,
         ProductCategory.Card,
         ProductStatus.Active)
@@ -34,6 +37,12 @@ public sealed class Card : Product, IAggregateRoot
 
         CardType = cardType;
         CreditLimit = creditLimit;
+
+        if (cardType == CardType.Credit)
+        {
+            SetBalance(new Money(creditLimit!.Value, currency));
+        }
+
         RaiseCreatedDomainEvent(cardType.ToString());
     }
 
@@ -44,8 +53,9 @@ public sealed class Card : Product, IAggregateRoot
         CustomerId customerId,
         string productName,
         string productNumber,
+        long numberSequence,
         string currency,
         CardType cardType,
         decimal? creditLimit = null)
-        => new(Guid.NewGuid(), customerId, productName, productNumber, currency, cardType, creditLimit);
+        => new(Guid.NewGuid(), customerId, productName, productNumber, numberSequence, currency, cardType, creditLimit);
 }

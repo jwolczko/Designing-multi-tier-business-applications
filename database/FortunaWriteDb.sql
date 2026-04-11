@@ -43,6 +43,7 @@ BEGIN
         [ProductCategory] INT NOT NULL,
         [ProductName] NVARCHAR(200) NOT NULL,
         [ProductNumber] NVARCHAR(64) NOT NULL,
+        [NumberSequence] BIGINT NOT NULL,
         [AccountNumber] NVARCHAR(34) NULL,
         [BankAccountType] INT NULL,
         [CardType] INT NULL,
@@ -63,6 +64,46 @@ IF COL_LENGTH(N'[dbo].[Products]', N'CreditLimit') IS NULL
 BEGIN
     ALTER TABLE [dbo].[Products]
     ADD [CreditLimit] DECIMAL(18, 2) NULL;
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Products]', N'NumberSequence') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Products]
+    ADD [NumberSequence] BIGINT NULL;
+END
+GO
+
+DECLARE @CurrentMaxNumberSequence BIGINT;
+
+SELECT @CurrentMaxNumberSequence = ISNULL(MAX([NumberSequence]), 0)
+FROM [dbo].[Products];
+
+;WITH [ProductSequenceCte] AS
+(
+    SELECT
+        [Id],
+        @CurrentMaxNumberSequence + ROW_NUMBER() OVER (ORDER BY [CreatedAtUtc], [Id]) AS [SequenceValue]
+    FROM [dbo].[Products]
+    WHERE [NumberSequence] IS NULL
+)
+UPDATE [Products]
+SET [Products].[NumberSequence] = [ProductSequenceCte].[SequenceValue]
+FROM [dbo].[Products] AS [Products]
+INNER JOIN [ProductSequenceCte]
+    ON [ProductSequenceCte].[Id] = [Products].[Id];
+GO
+
+IF EXISTS (
+    SELECT 1
+    FROM sys.columns
+    WHERE object_id = OBJECT_ID(N'[dbo].[Products]')
+      AND name = N'NumberSequence'
+      AND is_nullable = 1
+)
+BEGIN
+    ALTER TABLE [dbo].[Products]
+    ALTER COLUMN [NumberSequence] BIGINT NOT NULL;
 END
 GO
 
@@ -152,6 +193,18 @@ IF NOT EXISTS (
 BEGIN
     CREATE UNIQUE NONCLUSTERED INDEX [IXProductsProductNumber]
         ON [dbo].[Products] ([ProductNumber] ASC);
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = N'IXProductsNumberSequence'
+      AND object_id = OBJECT_ID(N'[dbo].[Products]')
+)
+BEGIN
+    CREATE UNIQUE NONCLUSTERED INDEX [IXProductsNumberSequence]
+        ON [dbo].[Products] ([NumberSequence] ASC);
 END
 GO
 

@@ -1,4 +1,11 @@
 import type { DashboardData } from '../../../features/dashboard/types/dashboard.types';
+import {
+  getProductAmountLabel,
+  getProductCategoryLabel,
+  getProductDisplayName,
+  getProductSubtitle,
+  getProductTypeLabel,
+} from '../../../features/dashboard/productPresentation';
 import './ProductsSection.css';
 
 type ProductsSectionProps = {
@@ -23,12 +30,15 @@ export function ProductsSection({ dashboard }: ProductsSectionProps) {
         {dashboard.products.map((product) => (
           <article className="products-section__card" key={product.productId}>
             <div className="products-section__card-header">
-              <h3>{product.productName}</h3>
+              <h3>{getProductDisplayName(product.productName)}</h3>
               <button type="button">⋮</button>
             </div>
 
-            <div className="products-section__subtitle">{product.productNumber}</div>
-            <div className="products-section__label">{product.productCategory} • {product.productType}</div>
+            <div className="products-section__subtitle">{getProductSubtitle(product)}</div>
+            <div className="products-section__label">
+              {getProductCategoryLabel(product.productCategory)} • {getProductTypeLabel(product.productType)}
+            </div>
+            <div className="products-section__label">{getProductAmountLabel(product)}</div>
             <div className="products-section__amount">{formatMoney(product.balance, product.currency)}</div>
           </article>
         ))}
