@@ -82,3 +82,4 @@ dist-ssr
 *.sln
 *.sw?
 .codex
+local.bru

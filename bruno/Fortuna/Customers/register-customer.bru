@@ -10,23 +10,26 @@ post {
   auth: none
 }
 
-script:pre-request {
-  bru.setVar("customerEmail", `jan.kowalski+${Date.now()}@example.com`);
-  bru.setVar("customerPassword", bru.getEnvVar("customerPassword") || "Secret123!");
-}
-
 body:json {
   {
-    "firstName": "Jan",
-    "lastName": "Kowalski",
+    "firstName": "Jakub",
+    "lastName": "Wołczko",
     "email": "{{customerEmail}}",
-    "password": "{{customerPassword}}"
+    "password": "{{customerPassword}}",
+    "customerType":"Prestige"
   }
+  
+  
+  
+}
+
+vars:pre-request {
+  baseUrl: https://localhost:57751
 }
 
 script:post-response {
   const data = res.getBody();
-
+  
   if (res.getStatus() === 201 && data?.customerId) {
     bru.setVar("customerId", data.customerId);
   }

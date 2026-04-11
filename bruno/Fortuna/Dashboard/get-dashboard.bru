@@ -6,6 +6,16 @@ meta {
 
 get {
   url: {{baseUrl}}/api/dashboard/{{customerId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+vars:pre-request {
+  baseUrl: https://localhost:57751
 }
 
 tests {
