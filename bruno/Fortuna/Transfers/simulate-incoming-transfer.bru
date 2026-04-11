@@ -1,0 +1,30 @@
+meta {
+  name: Simulate Incoming Transfer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/transfers/incoming
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{authToken}}
+}
+
+body:json {
+  {
+    "targetAccountId": "{{targetAccountId}}",
+    "amount": {{incomingTransferAmount}},
+    "currency": "{{currency}}",
+    "title": "{{incomingTransferTitle}}"
+  }
+}
+
+tests {
+  test("incoming transfer returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

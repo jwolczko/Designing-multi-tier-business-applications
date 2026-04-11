@@ -130,8 +130,11 @@ BEGIN
     CREATE TABLE [dbo].[Transfers]
     (
         [Id] UNIQUEIDENTIFIER NOT NULL,
+        [TransferType] INT NOT NULL CONSTRAINT [DFTransfersTransferType] DEFAULT (1),
         [SourceAccountId] UNIQUEIDENTIFIER NOT NULL,
-        [TargetAccountId] UNIQUEIDENTIFIER NOT NULL,
+        [TargetAccountId] UNIQUEIDENTIFIER NULL,
+        [ExternalTargetAccountNumber] NVARCHAR(34) NULL,
+        [ExternalRecipientName] NVARCHAR(200) NULL,
         [Amount] DECIMAL(18, 2) NOT NULL,
         [Currency] NVARCHAR(3) NOT NULL,
         [Title] NVARCHAR(300) NOT NULL,
@@ -142,6 +145,40 @@ BEGIN
         CONSTRAINT [FKTransfersSourceProduct] FOREIGN KEY ([SourceAccountId]) REFERENCES [dbo].[Products]([Id]),
         CONSTRAINT [FKTransfersTargetProduct] FOREIGN KEY ([TargetAccountId]) REFERENCES [dbo].[Products]([Id])
     );
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Transfers]', N'TransferType') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Transfers]
+    ADD [TransferType] INT NOT NULL CONSTRAINT [DFTransfersTransferType_Existing] DEFAULT (1);
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Transfers]', N'ExternalTargetAccountNumber') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Transfers]
+    ADD [ExternalTargetAccountNumber] NVARCHAR(34) NULL;
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Transfers]', N'ExternalRecipientName') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Transfers]
+    ADD [ExternalRecipientName] NVARCHAR(200) NULL;
+END
+GO
+
+IF EXISTS (
+    SELECT 1
+    FROM sys.columns
+    WHERE object_id = OBJECT_ID(N'[dbo].[Transfers]')
+      AND name = N'TargetAccountId'
+      AND is_nullable = 0
+)
+BEGIN
+    ALTER TABLE [dbo].[Transfers]
+    ALTER COLUMN [TargetAccountId] UNIQUEIDENTIFIER NULL;
 END
 GO
 

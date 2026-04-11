@@ -26,7 +26,7 @@ public sealed class DashboardReadRepository : IDashboardReadRepository
                 x.ProductType,
                 x.ProductName,
                 x.ProductNumber,
-                x.Balance,
+                GetVisibleBalance(x.ProductCategory, x.ProductType, x.Balance),
                 x.Currency))
             .ToListAsync(cancellationToken);
 
@@ -49,5 +49,16 @@ public sealed class DashboardReadRepository : IDashboardReadRepository
         var currency = products.FirstOrDefault()?.Currency ?? "PLN";
 
         return new DashboardDto(customerId, totalBalance, currency, products, events);
+    }
+
+    private static decimal GetVisibleBalance(string productCategory, string productType, decimal balance)
+    {
+        if (string.Equals(productCategory, "Card", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(productType, "Debit", StringComparison.OrdinalIgnoreCase))
+        {
+            return 0m;
+        }
+
+        return balance;
     }
 }

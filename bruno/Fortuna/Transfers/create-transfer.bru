@@ -11,8 +11,11 @@ post {
 
 body:json {
   {
+    "transferType": "{{transferType}}",
     "sourceAccountId": "{{sourceAccountId}}",
     "targetAccountId": "{{targetAccountId}}",
+    "targetAccountNumber": "{{externalTargetAccountNumber}}",
+    "recipientName": "{{externalRecipientName}}",
     "amount": {{transferAmount}},
     "currency": "{{currency}}",
     "title": "{{transferTitle}}"

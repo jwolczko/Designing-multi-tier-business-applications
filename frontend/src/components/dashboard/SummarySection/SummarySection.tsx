@@ -4,6 +4,7 @@ import './SummarySection.css';
 
 type SummarySectionProps = {
   dashboard: DashboardData;
+  onOpenTransfer: () => void;
 };
 
 function formatMoney(amount: number, currency: string) {
@@ -13,7 +14,7 @@ function formatMoney(amount: number, currency: string) {
   }).format(amount) + ` ${currency}`;
 }
 
-export function SummarySection({ dashboard }: SummarySectionProps) {
+export function SummarySection({ dashboard, onOpenTransfer }: SummarySectionProps) {
   const featuredProduct = dashboard.products[0];
 
   return (
@@ -37,7 +38,7 @@ export function SummarySection({ dashboard }: SummarySectionProps) {
             </div>
 
             <div className="summary-section__actions">
-              <button type="button" className="summary-section__primary-btn">
+              <button type="button" className="summary-section__primary-btn" onClick={onOpenTransfer}>
                 WYKONAJ PRZELEW
               </button>
               <button type="button" className="summary-section__outline-btn">

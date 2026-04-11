@@ -15,6 +15,7 @@ public sealed class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, value => new TransferId(value));
 
+        builder.Property(x => x.TransferType).IsRequired();
         builder.OwnsOne(x => x.Amount, owned =>
         {
             owned.Property(p => p.Amount).HasColumnName("Amount").HasColumnType("decimal(18,2)").IsRequired();
@@ -22,6 +23,8 @@ public sealed class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         });
 
         builder.Property(x => x.Title).HasMaxLength(300).IsRequired();
+        builder.Property(x => x.ExternalTargetAccountNumber).HasMaxLength(34);
+        builder.Property(x => x.ExternalRecipientName).HasMaxLength(200);
         builder.Property(x => x.Status).IsRequired();
         builder.Property(x => x.CreatedAtUtc).IsRequired();
         builder.Property(x => x.CompletedAtUtc);
