@@ -17,20 +17,6 @@ body:json {
   }
 }
 
-vars:pre-request {
-  baseUrl: https://localhost:57751
-}
-
-script:pre-request {
-  if (!bru.hasVar("customerEmail")) {
-    bru.setVar("customerEmail", bru.getEnvVar("customerEmail") || "jan@example.com");
-  }
-  
-  if (!bru.hasVar("customerPassword")) {
-    bru.setVar("customerPassword", bru.getEnvVar("customerPassword") || "Secret123!");
-  }
-}
-
 script:post-response {
   const data = res.getBody();
   

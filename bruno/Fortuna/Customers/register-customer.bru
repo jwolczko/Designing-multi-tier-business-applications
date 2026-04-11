@@ -12,19 +12,12 @@ post {
 
 body:json {
   {
-    "firstName": "Jakub",
-    "lastName": "Wołczko",
+    "firstName": "{{customerFirstName}}",
+    "lastName": "{{customerLastName}}",
     "email": "{{customerEmail}}",
     "password": "{{customerPassword}}",
-    "customerType":"Prestige"
+    "customerType": "{{customerType}}"
   }
-  
-  
-  
-}
-
-vars:pre-request {
-  baseUrl: https://localhost:57751
 }
 
 script:post-response {
