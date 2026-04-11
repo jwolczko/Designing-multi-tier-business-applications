@@ -3,6 +3,14 @@ export type LoginRequest = {
   password: string;
 };
 
+export type RegisterRequest = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  customerType: 'Normal' | 'Prestige';
+};
+
 export type LoginResponse = {
   token: string;
   expiresAtUtc: string;

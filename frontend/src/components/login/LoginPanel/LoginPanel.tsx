@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch } from '../../../app/store/hooks';
-import { loginRequest } from '../../../features/auth/api/authApi';
-import { createSessionFromLogin, saveAuthSession } from '../../../features/auth/authSession';
-import { setCredentials } from '../../../features/auth/store/authSlice';
-import { getDashboardData } from '../../../features/dashboard/api/dashboardApi';
+import { loginAndInitializeSession } from '../../../features/auth/authFlow';
 import './LoginPanel.css';
 
 type LoginPanelProps = {
@@ -32,19 +29,7 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
       setIsSubmitting(true);
       setErrorMessage(null);
 
-      const response = await loginRequest({
-        email: login.trim(),
-        password,
-      });
-
-      const session = createSessionFromLogin(login.trim(), response);
-      saveAuthSession(session);
-      dispatch(setCredentials(session));
-
-      await queryClient.prefetchQuery({
-        queryKey: ['dashboard', session.customerId],
-        queryFn: () => getDashboardData(session.token, session.customerId),
-      });
+      await loginAndInitializeSession(login.trim(), password, dispatch, queryClient);
 
       onClose?.();
       navigate('/dashboard');

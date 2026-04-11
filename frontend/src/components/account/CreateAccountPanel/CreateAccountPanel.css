@@ -1,0 +1,93 @@
+.create-account-panel {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 20px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(24, 39, 75, 0.18);
+}
+
+.create-account-panel--modal {
+  max-height: min(90vh, 720px);
+  overflow-y: auto;
+}
+
+.create-account-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.create-account-panel__form h1 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.2;
+  color: #162033;
+}
+
+.create-account-panel__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.create-account-panel__input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 42px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.create-account-panel__input:focus {
+  border-color: #1f63c7;
+  box-shadow: 0 0 0 3px rgba(31, 99, 199, 0.14);
+}
+
+.create-account-panel__error {
+  margin: -2px 0 0;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.create-account-panel__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.create-account-panel__back-btn {
+  border: 1px solid #d6dbe5;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.create-account-panel__submit-btn {
+  border: none;
+  background: #c70059;
+  color: #fff;
+}
+
+.create-account-panel__back-btn,
+.create-account-panel__submit-btn {
+  min-height: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.create-account-panel__submit-btn:disabled,
+.create-account-panel__input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

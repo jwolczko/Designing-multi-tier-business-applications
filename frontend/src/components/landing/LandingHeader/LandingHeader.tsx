@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import './LandingHeader.css';
 
 type LandingHeaderProps = {
@@ -5,6 +6,8 @@ type LandingHeaderProps = {
 };
 
 export function LandingHeader({ onOpenLogin }: LandingHeaderProps) {
+  const navigate = useNavigate();
+
   return (
     <header className="landing-header">
       <div className="landing-header__topbar">
@@ -15,7 +18,7 @@ export function LandingHeader({ onOpenLogin }: LandingHeaderProps) {
 
       <div className="landing-header__toolbar">
      
-        <button className="landing-header__outline-btn" type="button">
+        <button className="landing-header__outline-btn" type="button" onClick={() => navigate('/create-account')}>
           ZAŁÓŻ KONTO
         </button>
         <button className="landing-header__login-btn" type="button" onClick={onOpenLogin}>
