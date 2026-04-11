@@ -85,3 +85,26 @@ export function getProductAmountLabel(product: DashboardProduct) {
 
   return 'Dostępne środki';
 }
+
+export function getProductDisplayBalance(product: DashboardProduct, products: DashboardProduct[]) {
+  if (product.productCategory === 'Card' && product.productType === 'Debit') {
+    const linkedAccount =
+      products.find(
+        (candidate) =>
+          candidate.productCategory === 'BankAccount'
+          && (candidate.productType === 'Standard' || candidate.productType === 'Prestige'),
+      ) ?? products.find((candidate) => candidate.productCategory === 'BankAccount');
+
+    if (linkedAccount) {
+      return {
+        amount: linkedAccount.balance,
+        currency: linkedAccount.currency,
+      };
+    }
+  }
+
+  return {
+    amount: product.balance,
+    currency: product.currency,
+  };
+}

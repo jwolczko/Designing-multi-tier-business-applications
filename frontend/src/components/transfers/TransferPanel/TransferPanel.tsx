@@ -100,10 +100,11 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
 
       await createTransferRequest(token, payload);
       updateDashboardAfterTransfer(queryClient, customerId, payload);
-      await queryClient.invalidateQueries({ queryKey: ['dashboard', customerId] });
-      await queryClient.refetchQueries({ queryKey: ['dashboard', customerId] });
-
       onClose();
+      window.setTimeout(() => {
+        void queryClient.invalidateQueries({ queryKey: ['dashboard', customerId] });
+        void queryClient.refetchQueries({ queryKey: ['dashboard', customerId] });
+      }, 2500);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Nie udało się wykonać przelewu.');
     } finally {
