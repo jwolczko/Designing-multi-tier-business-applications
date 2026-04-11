@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="FortunaDb">
+  <Items>
+    <LogicalFolder Name="Połączenia" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Zapytania" Type="0" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Różne" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

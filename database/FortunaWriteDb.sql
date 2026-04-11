@@ -1,10 +1,13 @@
-IF DB_ID(N'Fortuna_WriteDb') IS NULL
+USE master
+GO
+
+IF DB_ID(N'FortunaWriteDb') IS NULL
 BEGIN
-    CREATE DATABASE [Fortuna_WriteDb];
+    CREATE DATABASE [FortunaWriteDb];
 END
 GO
 
-USE [Fortuna_WriteDb];
+USE [FortunaWriteDb];
 GO
 
 IF OBJECT_ID(N'[dbo].[Customers]', N'U') IS NULL
@@ -34,8 +37,8 @@ BEGIN
         [Currency] NVARCHAR(3) NOT NULL,
         [Status] INT NOT NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL,
-        CONSTRAINT [PK_dbo_BankAccounts] PRIMARY KEY CLUSTERED ([Id] ASC),
-        CONSTRAINT [FK_dbo_BankAccounts_Customers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers]([Id])
+        CONSTRAINT [PKBankAccounts] PRIMARY KEY CLUSTERED ([Id] ASC),
+        CONSTRAINT [FKBankAccountsCustomers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers]([Id])
     );
 END
 GO
@@ -52,8 +55,8 @@ BEGIN
         [Currency] NVARCHAR(3) NOT NULL,
         [Title] NVARCHAR(300) NOT NULL,
         [BookedAtUtc] DATETIME2(7) NOT NULL,
-        CONSTRAINT [PK_dbo_Transactions] PRIMARY KEY CLUSTERED ([Id] ASC),
-        CONSTRAINT [FK_dbo_Transactions_BankAccounts] FOREIGN KEY ([BankAccountId]) REFERENCES [dbo].[BankAccounts]([Id])
+        CONSTRAINT [PKTransactions] PRIMARY KEY CLUSTERED ([Id] ASC),
+        CONSTRAINT [FKTransactionsBankAccounts] FOREIGN KEY ([BankAccountId]) REFERENCES [dbo].[BankAccounts]([Id])
     );
 END
 GO
@@ -71,7 +74,7 @@ BEGIN
         [Status] INT NOT NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL,
         [CompletedAtUtc] DATETIME2(7) NULL,
-        CONSTRAINT [PK_dbo_Transfers] PRIMARY KEY CLUSTERED ([Id] ASC)
+        CONSTRAINT [PKTransfers] PRIMARY KEY CLUSTERED ([Id] ASC)
     );
 END
 GO
@@ -86,7 +89,7 @@ BEGIN
         [OccurredOnUtc] DATETIME2(7) NOT NULL,
         [ProcessedOnUtc] DATETIME2(7) NULL,
         [Error] NVARCHAR(MAX) NULL,
-        CONSTRAINT [PK_dbo_OutboxMessages] PRIMARY KEY CLUSTERED ([Id] ASC)
+        CONSTRAINT [PKOutboxMessages] PRIMARY KEY CLUSTERED ([Id] ASC)
     );
 END
 GO
@@ -94,7 +97,7 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_Customers_Email'
+    WHERE name = N'IXCustomersEmail'
       AND object_id = OBJECT_ID(N'[dbo].[Customers]')
 )
 BEGIN
@@ -106,7 +109,7 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_BankAccounts_CustomerId'
+    WHERE name = N'IXBankAccountsCustomerId'
       AND object_id = OBJECT_ID(N'[dbo].[BankAccounts]')
 )
 BEGIN
@@ -118,11 +121,11 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_Transactions_BankAccountId'
+    WHERE name = N'IXTransactionsBankAccountId'
       AND object_id = OBJECT_ID(N'[dbo].[Transactions]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_Transactions_BankAccountId]
+    CREATE NONCLUSTERED INDEX [IXTransactionsBankAccountId]
         ON [dbo].[Transactions] ([BankAccountId] ASC);
 END
 GO
@@ -130,11 +133,11 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_Transactions_TransferId'
+    WHERE name = N'IXTransactionsTransferId'
       AND object_id = OBJECT_ID(N'[dbo].[Transactions]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_Transactions_TransferId]
+    CREATE NONCLUSTERED INDEX [IXTransactionsTransferId]
         ON [dbo].[Transactions] ([TransferId] ASC);
 END
 GO
@@ -142,11 +145,11 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_Transfers_SourceAccountId'
+    WHERE name = N'IXTransfersSourceAccountId'
       AND object_id = OBJECT_ID(N'[dbo].[Transfers]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_Transfers_SourceAccountId]
+    CREATE NONCLUSTERED INDEX [IXTransfersSourceAccountId]
         ON [dbo].[Transfers] ([SourceAccountId] ASC);
 END
 GO
@@ -154,11 +157,11 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_Transfers_TargetAccountId'
+    WHERE name = N'IXTransfersTargetAccountId'
       AND object_id = OBJECT_ID(N'[dbo].[Transfers]')
 )
 BEGIN
-    CREATE NONCLUSTERED INDEX [IX_dbo_Transfers_TargetAccountId]
+    CREATE NONCLUSTERED INDEX [IXTransfersTargetAccountId]
         ON [dbo].[Transfers] ([TargetAccountId] ASC);
 END
 GO
@@ -166,7 +169,7 @@ GO
 IF NOT EXISTS (
     SELECT 1
     FROM sys.indexes
-    WHERE name = N'IX_dbo_OutboxMessages_ProcessedOnUtc'
+    WHERE name = N'IXOutboxMessagesProcessedOnUtc'
       AND object_id = OBJECT_ID(N'[dbo].[OutboxMessages]')
 )
 BEGIN
