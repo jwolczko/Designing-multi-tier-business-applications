@@ -6,4 +6,5 @@ public sealed record RegisterCustomerCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password) : ICommand<Guid>;
+    string Password,
+    string CustomerType) : ICommand<Guid>;

@@ -9,5 +9,6 @@ public sealed class CardConfiguration : IEntityTypeConfiguration<Card>
     public void Configure(EntityTypeBuilder<Card> builder)
     {
         builder.Property(x => x.CardType).HasColumnName("CardType").IsRequired();
+        builder.Property(x => x.CreditLimit).HasColumnType("decimal(18,2)");
     }
 }

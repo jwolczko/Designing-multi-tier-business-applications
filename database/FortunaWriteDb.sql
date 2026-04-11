@@ -19,9 +19,17 @@ BEGIN
         [LastName] NVARCHAR(100) NOT NULL,
         [Email] NVARCHAR(200) NOT NULL,
         [PasswordHash] NVARCHAR(512) NOT NULL,
+        [CustomerType] INT NOT NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL,
         CONSTRAINT [PK_dbo_Customers] PRIMARY KEY CLUSTERED ([Id] ASC)
     );
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Customers]', N'CustomerType') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Customers]
+    ADD [CustomerType] INT NOT NULL CONSTRAINT [DF_Customers_CustomerType] DEFAULT (1);
 END
 GO
 
@@ -38,6 +46,7 @@ BEGIN
         [AccountNumber] NVARCHAR(34) NULL,
         [BankAccountType] INT NULL,
         [CardType] INT NULL,
+        [CreditLimit] DECIMAL(18, 2) NULL,
         [LoanType] INT NULL,
         [Balance] DECIMAL(18, 2) NOT NULL,
         [BalanceCurrency] NVARCHAR(3) NOT NULL,
@@ -47,6 +56,13 @@ BEGIN
         CONSTRAINT [PKProducts] PRIMARY KEY CLUSTERED ([Id] ASC),
         CONSTRAINT [FKProductsCustomers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers]([Id])
     );
+END
+GO
+
+IF COL_LENGTH(N'[dbo].[Products]', N'CreditLimit') IS NULL
+BEGIN
+    ALTER TABLE [dbo].[Products]
+    ADD [CreditLimit] DECIMAL(18, 2) NULL;
 END
 GO
 

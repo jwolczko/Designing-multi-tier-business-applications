@@ -4,4 +4,5 @@ public sealed record RegisterCustomerRequest(
     string FirstName,
     string LastName,
     string Email,
-    string Password);
+    string Password,
+    string CustomerType);

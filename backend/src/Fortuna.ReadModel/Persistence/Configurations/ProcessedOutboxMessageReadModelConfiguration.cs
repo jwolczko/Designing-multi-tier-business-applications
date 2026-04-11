@@ -8,7 +8,7 @@ public sealed class ProcessedOutboxMessageReadModelConfiguration : IEntityTypeCo
 {
     public void Configure(EntityTypeBuilder<ProcessedOutboxMessageReadModel> builder)
     {
-        builder.ToTable("ProcessedOutboxMessage", "read");
+        builder.ToTable("ProcessedOutboxMessage");
         builder.HasKey(x => x.OutboxMessageId);
 
         builder.Property(x => x.OutboxMessageId).ValueGeneratedNever();

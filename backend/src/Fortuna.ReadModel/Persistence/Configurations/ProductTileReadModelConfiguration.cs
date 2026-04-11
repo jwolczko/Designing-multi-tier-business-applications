@@ -8,7 +8,7 @@ public sealed class ProductTileReadModelConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<ProductTileReadModel> builder)
     {
-        builder.ToTable("ProductTile", "read");
+        builder.ToTable("ProductTile");
         builder.HasKey(x => x.ProductId);
 
         builder.Property(x => x.ProductId).ValueGeneratedNever();

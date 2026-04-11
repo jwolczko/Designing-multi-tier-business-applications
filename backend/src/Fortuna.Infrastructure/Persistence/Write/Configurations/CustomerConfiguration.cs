@@ -27,6 +27,7 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         });
 
         builder.Property(x => x.PasswordHash).HasMaxLength(512).IsRequired();
+        builder.Property(x => x.Type).HasColumnName("CustomerType").IsRequired();
         builder.Property(x => x.CreatedAtUtc).IsRequired();
 
         builder.Metadata.FindNavigation(nameof(Customer.Products))?

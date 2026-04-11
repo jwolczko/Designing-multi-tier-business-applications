@@ -8,7 +8,7 @@ public sealed class TimelineEventReadModelConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<TimelineEventReadModel> builder)
     {
-        builder.ToTable("TimelineEvent", "read");
+        builder.ToTable("TimelineEvent");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).ValueGeneratedNever();

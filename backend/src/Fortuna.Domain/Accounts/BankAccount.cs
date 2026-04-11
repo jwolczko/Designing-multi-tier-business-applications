@@ -2,6 +2,7 @@ using Fortuna.Domain.Abstractions;
 using Fortuna.Domain.Accounts.Events;
 using Fortuna.Domain.Customers;
 using Fortuna.Domain.Products;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fortuna.Domain.Accounts;
 
@@ -34,7 +35,10 @@ public sealed class BankAccount : Product, IAggregateRoot
     }
 
     public AccountNumber AccountNumber { get; private set; } = default!;
+    [NotMapped]
     public string AccountName => ProductName;
+
+    [NotMapped]
     public new AccountStatus Status => (AccountStatus)(int)base.Status;
     public BankAccountType AccountType { get; private set; }
     public IReadOnlyCollection<TransactionEntry> Transactions => _transactions;

@@ -14,8 +14,6 @@ public sealed class BankAccountConfiguration : IEntityTypeConfiguration<BankAcco
         {
             owned.Property(p => p.Value).HasColumnName("AccountNumber").HasMaxLength(34).IsRequired();
         });
-        builder.Ignore(x => x.AccountName);
-        builder.Ignore(x => x.Status);
 
         builder.HasMany(x => x.Transactions)
             .WithOne()

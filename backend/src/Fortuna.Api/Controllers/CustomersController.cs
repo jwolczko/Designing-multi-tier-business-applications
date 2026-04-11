@@ -18,7 +18,7 @@ public sealed class CustomersController : ControllerBase
         CancellationToken cancellationToken)
     {
         var customerId = await handler.Handle(
-            new RegisterCustomerCommand(request.FirstName, request.LastName, request.Email, request.Password),
+            new RegisterCustomerCommand(request.FirstName, request.LastName, request.Email, request.Password, request.CustomerType),
             cancellationToken);
 
         return CreatedAtAction(nameof(Register), new RegisterCustomerResponse(customerId));

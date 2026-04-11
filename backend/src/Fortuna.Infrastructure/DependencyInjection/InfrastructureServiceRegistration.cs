@@ -1,5 +1,6 @@
 using Fortuna.Domain.Accounts.Repositories;
 using Fortuna.Domain.Customers.Repositories;
+using Fortuna.Domain.Products.Repositories;
 using Fortuna.Domain.Transfers.Repositories;
 using Fortuna.Infrastructure.Auth;
 using Fortuna.Infrastructure.Options;
@@ -29,6 +30,7 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ITransferRepository, TransferRepository>();
 
         services.AddScoped<Fortuna.Application.Abstractions.Persistence.IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
