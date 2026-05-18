@@ -42,12 +42,12 @@ export function SummarySection({ dashboard, onOpenTransfer }: SummarySectionProp
               </div>
 
               <div className="summary-section__actions">
-                <button type="button" className="summary-section__primary-btn" onClick={onOpenTransfer}>
+                <button type="button" className="app-button app-button--primary summary-section__primary-btn" onClick={onOpenTransfer}>
                   WYKONAJ PRZELEW
                 </button>
                 <button
                   type="button"
-                  className="summary-section__outline-btn"
+                  className="app-button summary-section__outline-btn"
                   onClick={() => setIsInfoPopupOpen(true)}
                 >
                   HISTORIA

@@ -26,7 +26,10 @@ export function LandingPage() {
             <LoginPanel
               isModal
               onClose={() => setIsLoginModalOpen(false)}
-              onOpenSupport={() => setIsSupportModalOpen(true)}
+              onOpenSupport={() => {
+                setIsLoginModalOpen(false);
+                setIsSupportModalOpen(true);
+              }}
             />
           </div>
         </div>

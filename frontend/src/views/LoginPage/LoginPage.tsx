@@ -8,7 +8,9 @@ export function LoginPage() {
 
   return (
     <div className="login-page">
-      <LoginPanel onOpenSupport={() => setIsSupportModalOpen(true)} />
+      <div className="login-page__panel">
+        <LoginPanel onOpenSupport={() => setIsSupportModalOpen(true)} />
+      </div>
       {isSupportModalOpen && <LoginSupportModal onClose={() => setIsSupportModalOpen(false)} />}
     </div>
   );

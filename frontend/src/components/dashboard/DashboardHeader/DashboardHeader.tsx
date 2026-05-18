@@ -34,7 +34,7 @@ export function DashboardHeader() {
 
         <div className="dashboard-header__mail">✉<span className="dashboard-header__badge">13</span></div>
 
-        <button className="dashboard-header__logout" type="button" onClick={handleLogout}>
+        <button className="app-button dashboard-header__logout" type="button" onClick={handleLogout}>
           <span>⏻</span>
           <div>
             <strong>WYLOGUJ</strong>

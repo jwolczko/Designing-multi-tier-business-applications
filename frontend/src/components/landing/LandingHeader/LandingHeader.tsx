@@ -17,11 +17,10 @@ export function LandingHeader({ onOpenLogin }: LandingHeaderProps) {
       </div>
 
       <div className="landing-header__toolbar">
-     
-        <button className="landing-header__outline-btn" type="button" onClick={() => navigate('/create-account')}>
+        <button className="app-button landing-header__outline-btn" type="button" onClick={() => navigate('/create-account')}>
           ZAŁÓŻ KONTO
         </button>
-        <button className="landing-header__login-btn" type="button" onClick={onOpenLogin}>
+        <button className="app-button app-button--success landing-header__login-btn" type="button" onClick={onOpenLogin}>
           LOGOWANIE
         </button>
       </div>

@@ -40,7 +40,7 @@ export function ProductsSection({ dashboard }: ProductsSectionProps) {
               <article className="products-section__card" key={product.productId}>
                 <div className="products-section__card-header">
                   <h3>{getProductDisplayName(product.productName)}</h3>
-                  <button type="button">⋮</button>
+                  <button className="app-button app-button--icon" type="button">⋮</button>
                 </div>
 
                 <div className="products-section__subtitle">{getProductSubtitle(product)}</div>
@@ -54,7 +54,7 @@ export function ProductsSection({ dashboard }: ProductsSectionProps) {
           })}
 
           <article
-            className="products-section__add-card"
+            className="app-button app-button--success products-section__add-card"
             role="button"
             tabIndex={0}
             onClick={() => setIsInfoPopupOpen(true)}

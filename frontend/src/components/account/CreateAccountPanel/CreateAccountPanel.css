@@ -1,10 +1,13 @@
 .create-account-panel {
   width: 100%;
   max-width: 420px;
-  padding: 24px 20px;
+  padding: 28px 24px 24px;
   background: #fff;
+  border: 2px solid var(--color-gold);
   border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(24, 39, 75, 0.18);
+  box-shadow: 0 24px 70px rgba(7, 26, 51, 0.2);
+  box-sizing: border-box;
+  font-family: var(--sans);
 }
 
 .create-account-panel--modal {
@@ -15,68 +18,103 @@
 .create-account-panel__form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .create-account-panel__form h1 {
-  margin: 0;
-  font-size: 21px;
+  margin: 0 0 6px;
+  font-size: 22px;
   line-height: 1.2;
-  color: #162033;
+  color: var(--color-navy);
 }
 
 .create-account-panel__label {
   font-size: 13px;
   font-weight: 700;
-  color: #334155;
+  color: var(--color-navy-soft);
+  margin-top: 4px;
 }
 
 .create-account-panel__input {
   width: 100%;
   box-sizing: border-box;
-  min-height: 42px;
-  border: 1px solid #cbd5e1;
+  min-height: 46px;
+  border: 2px solid var(--color-gold-light);
   border-radius: 10px;
   padding: 0 12px;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
   background: #fff;
+  color: var(--color-navy);
+  box-shadow: inset 0 0 0 1px rgba(7, 26, 51, 0.04);
+  font-family: var(--sans);
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.create-account-panel__input::placeholder {
+  color: #7a857f;
+  opacity: 1;
 }
 
 .create-account-panel__input:focus {
-  border-color: #1f63c7;
-  box-shadow: 0 0 0 3px rgba(31, 99, 199, 0.14);
+  border-color: var(--color-gold);
+  background: var(--color-ivory-strong);
+  box-shadow:
+    inset 0 0 0 1px rgba(7, 26, 51, 0.04),
+    0 0 0 3px rgba(199, 161, 58, 0.24);
+}
+
+.create-account-panel__input:hover:not(:disabled) {
+  border-color: var(--color-gold);
+}
+
+.create-account-panel select.create-account-panel__input {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-burgundy) 50%),
+    linear-gradient(135deg, var(--color-burgundy) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-repeat: no-repeat;
+  background-size: 6px 6px;
+  padding-right: 38px;
+  cursor: pointer;
 }
 
 .create-account-panel__error {
   margin: -2px 0 0;
   font-size: 12px;
-  color: #b91c1c;
+  color: var(--color-burgundy);
 }
 
 .create-account-panel__buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 6px;
+  margin-top: 14px;
 }
 
 .create-account-panel__back-btn {
-  border: 1px solid #d6dbe5;
-  background: #f8fafc;
-  color: #475569;
+  border: 2px solid var(--color-gold);
+  background: #fff;
+  color: var(--color-navy);
 }
 
 .create-account-panel__submit-btn {
-  border: none;
-  background: #c70059;
-  color: #fff;
+  border: 2px solid var(--color-burgundy);
+  background: #fff;
+  color: var(--color-burgundy);
 }
 
 .create-account-panel__back-btn,
 .create-account-panel__submit-btn {
-  min-height: 40px;
-  font-size: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
@@ -84,6 +122,31 @@
   text-decoration: none;
   border-radius: 10px;
   cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease;
+}
+
+.create-account-panel__back-btn:hover {
+  background: var(--color-gold-light);
+}
+
+.create-account-panel__back-btn:active {
+  background: var(--color-gold);
+  color: var(--color-navy);
+  transform: translateY(1px);
+}
+
+.create-account-panel__submit-btn:hover {
+  background: var(--color-burgundy-light);
+}
+
+.create-account-panel__submit-btn:active {
+  background: var(--color-burgundy);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
 }
 
 .create-account-panel__submit-btn:disabled,

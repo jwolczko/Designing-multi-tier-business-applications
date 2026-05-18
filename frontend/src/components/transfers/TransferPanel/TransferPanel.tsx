@@ -189,6 +189,7 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
                 className="transfer-panel__input"
                 type="text"
                 value={targetAccountNumber}
+                placeholder="Wpisz numer konta"
                 inputMode="numeric"
                 pattern="[0-9]*"
                 onChange={(event) => setTargetAccountNumber(event.target.value.replace(/\D+/g, ''))}
@@ -203,6 +204,7 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
                 className="transfer-panel__input"
                 type="text"
                 value={recipientName}
+                placeholder="Wpisz nazwę odbiorcy"
                 onChange={(event) => setRecipientName(event.target.value)}
                 disabled={isSubmitting}
               />
@@ -217,6 +219,7 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
             className="transfer-panel__input"
             type="text"
             value={title}
+            placeholder="np. Przelew środków"
             onChange={(event) => setTitle(event.target.value)}
             disabled={isSubmitting}
           />
@@ -231,6 +234,7 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
             min="0.01"
             step="0.01"
             value={amount}
+            placeholder="0,00"
             onChange={(event) => setAmount(event.target.value)}
             disabled={isSubmitting}
           />
@@ -238,10 +242,10 @@ export function TransferPanel({ dashboard, onClose }: TransferPanelProps) {
           {errorMessage && <p className="transfer-panel__error">{errorMessage}</p>}
 
           <div className="transfer-panel__buttons">
-            <button className="transfer-panel__secondary-btn" type="button" onClick={onClose}>
+            <button className="app-button transfer-panel__secondary-btn" type="button" onClick={onClose}>
               ANULUJ
             </button>
-            <button className="transfer-panel__primary-btn" type="submit" disabled={isSubmitting || bankAccounts.length === 0}>
+            <button className="app-button app-button--primary transfer-panel__primary-btn" type="submit" disabled={isSubmitting || bankAccounts.length === 0}>
               {isSubmitting ? 'WYSYŁANIE...' : 'WYKONAJ PRZELEW'}
             </button>
           </div>

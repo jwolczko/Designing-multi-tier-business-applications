@@ -8,7 +8,7 @@ export function LoginSupportModal({ onClose }: LoginSupportModalProps) {
   return (
     <div className="login-support-modal__overlay" role="dialog" aria-modal="true">
       <div className="login-support-modal">
-        <button className="login-support-modal__close" type="button" onClick={onClose}>
+        <button className="app-button app-button--icon app-button--primary login-support-modal__close" type="button" onClick={onClose}>
           ×
         </button>
 
@@ -20,12 +20,12 @@ export function LoginSupportModal({ onClose }: LoginSupportModalProps) {
           <div className="login-support-modal__field">
             <div className="login-support-modal__field-header">
               <label>Login:</label>
-              <button type="button">Nie pamiętasz loginu?</button>
+              <button className="app-button login-support-modal__help-btn" type="button">Nie pamiętasz loginu?</button>
             </div>
-            <input type="text" />
+            <input type="text" placeholder="Wpisz login lub adres e-mail" />
           </div>
 
-          <button className="login-support-modal__next" type="button">
+          <button className="app-button app-button--primary login-support-modal__next" type="button">
             DALEJ
           </button>
         </div>

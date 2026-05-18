@@ -37,16 +37,14 @@ public sealed class TransfersController : ControllerBase
     }
 
     [HttpPost("incoming")]
+    [AllowAnonymous]
     public async Task<ActionResult<Guid>> Incoming(
         [FromBody] IncomingTransferRequest request,
         [FromServices] DepositMoneyCommandHandler handler,
         CancellationToken cancellationToken)
     {
-        var customerId = User.GetRequiredCustomerId();
-
         var result = await handler.Handle(
             new DepositMoneyCommand(
-                customerId,
                 request.TargetAccountId,
                 request.Amount,
                 request.Currency,

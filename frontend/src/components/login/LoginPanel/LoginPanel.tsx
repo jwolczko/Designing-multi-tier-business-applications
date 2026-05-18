@@ -58,6 +58,7 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
             className="login-panel__input"
             type="email"
             value={login}
+            placeholder="np. anna.kowalska@example.com"
             onChange={(event) => setLogin(event.target.value)}
             autoComplete="username"
             disabled={isSubmitting}
@@ -71,6 +72,7 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
             className="login-panel__input"
             type="password"
             value={password}
+            placeholder="Wpisz hasło"
             onChange={(event) => setPassword(event.target.value)}
             autoComplete="current-password"
             disabled={isSubmitting}
@@ -80,20 +82,20 @@ export function LoginPanel({ onOpenSupport, onClose, isModal = false }: LoginPan
 
           <div className="login-panel__buttons">
             {onClose ? (
-              <button className="login-panel__back-btn" type="button" onClick={onClose}>
+              <button className="app-button login-panel__back-btn" type="button" onClick={onClose}>
                 WSTECZ
               </button>
             ) : (
-              <Link className="login-panel__back-btn" to="/">
+              <Link className="app-button login-panel__back-btn" to="/">
                 WSTECZ
               </Link>
             )}
-            <button className="login-panel__submit-btn" type="submit" disabled={isSubmitting}>
+            <button className="app-button app-button--primary login-panel__submit-btn" type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'LOGOWANIE...' : 'ZALOGUJ'}
             </button>
           </div>
 
-          <button className="login-panel__support-link" type="button" onClick={onOpenSupport}>
+          <button className="app-button login-panel__support-link" type="button" onClick={onOpenSupport}>
             Problemy z logowaniem
           </button>
       </form>

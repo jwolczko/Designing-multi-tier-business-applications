@@ -16,7 +16,7 @@ export function InfoPopup({ message, onClose }: InfoPopupProps) {
     >
       <div className="info-popup" onClick={(event) => event.stopPropagation()}>
         <p className="info-popup__message">{message}</p>
-        <button className="info-popup__button" type="button" onClick={onClose}>
+        <button className="app-button app-button--primary info-popup__button" type="button" onClick={onClose}>
           OK
         </button>
       </div>

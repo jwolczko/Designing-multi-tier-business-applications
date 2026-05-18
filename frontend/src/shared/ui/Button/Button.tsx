@@ -8,8 +8,10 @@ type ButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> & 
 };
 
 export function Button({ children, variant = 'primary', className = '', ...props }: ButtonProps) {
+  const appVariant = variant === 'primary' ? ' app-button--primary' : variant === 'ghost' ? ' app-button--success' : '';
+
   return (
-    <button className={`ui-button ui-button--${variant} ${className}`.trim()} {...props}>
+    <button className={`app-button${appVariant} ui-button ui-button--${variant} ${className}`.trim()} {...props}>
       {children}
     </button>
   );

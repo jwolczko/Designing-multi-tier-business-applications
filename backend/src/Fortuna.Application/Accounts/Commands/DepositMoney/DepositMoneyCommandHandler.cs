@@ -21,7 +21,7 @@ public sealed class DepositMoneyCommandHandler : ICommandHandler<DepositMoneyCom
     public async Task<Guid> Handle(DepositMoneyCommand command, CancellationToken cancellationToken)
     {
         var product = await _productRepository.GetByIdAsync(command.AccountId, cancellationToken);
-        if (product is null || product.CustomerId.Value != command.CustomerId)
+        if (product is null)
             throw new NotFoundException("Product not found.");
 
         var amount = new Money(command.Amount, command.Currency);

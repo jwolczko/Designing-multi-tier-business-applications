@@ -64,6 +64,7 @@ export function CreateAccountPanel({ onClose, isModal = false }: CreateAccountPa
           className="create-account-panel__input"
           type="text"
           value={firstName}
+          placeholder="np. Anna"
           onChange={(event) => setFirstName(event.target.value)}
           disabled={isSubmitting}
         />
@@ -76,6 +77,7 @@ export function CreateAccountPanel({ onClose, isModal = false }: CreateAccountPa
           className="create-account-panel__input"
           type="text"
           value={lastName}
+          placeholder="np. Kowalska"
           onChange={(event) => setLastName(event.target.value)}
           disabled={isSubmitting}
         />
@@ -88,6 +90,7 @@ export function CreateAccountPanel({ onClose, isModal = false }: CreateAccountPa
           className="create-account-panel__input"
           type="email"
           value={email}
+          placeholder="np. anna.kowalska@example.com"
           onChange={(event) => setEmail(event.target.value)}
           autoComplete="username"
           disabled={isSubmitting}
@@ -101,6 +104,7 @@ export function CreateAccountPanel({ onClose, isModal = false }: CreateAccountPa
           className="create-account-panel__input"
           type="password"
           value={password}
+          placeholder="Wpisz hasło"
           onChange={(event) => setPassword(event.target.value)}
           autoComplete="new-password"
           disabled={isSubmitting}
@@ -124,16 +128,16 @@ export function CreateAccountPanel({ onClose, isModal = false }: CreateAccountPa
 
         <div className="create-account-panel__buttons">
           {onClose ? (
-            <button className="create-account-panel__back-btn" type="button" onClick={onClose}>
+            <button className="app-button create-account-panel__back-btn" type="button" onClick={onClose}>
               WSTECZ
             </button>
           ) : (
-            <Link className="create-account-panel__back-btn" to="/">
+            <Link className="app-button create-account-panel__back-btn" to="/">
               WSTECZ
             </Link>
           )}
           <button
-            className="create-account-panel__submit-btn"
+            className="app-button app-button--primary create-account-panel__submit-btn"
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}

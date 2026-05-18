@@ -30,6 +30,8 @@ public partial class Program
             .Get<string[]>() ?? ["http://localhost:5173"];
 
         builder.Services.AddOpenApi();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
         builder.Services.AddCors(options =>
         {
@@ -67,11 +69,14 @@ public partial class Program
         var app = builder.Build();
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseSwagger();
+        app.UseSwaggerUI();
         app.UseCors(FrontendCorsPolicy);
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapOpenApi("/openapi/v1.json");
+        app.MapGet("/", () => Results.Redirect("/swagger"));
         app.MapControllers();
         app.MapGet("/api/health", () => Results.Ok(new { status = "ok" }));
 

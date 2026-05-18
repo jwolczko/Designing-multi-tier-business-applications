@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { InfoPopup } from '../../../shared/ui/InfoPopup/InfoPopup';
+import fortunaImage from '../../../assets/landing/fortuna-clean.png';
 import './LandingHero.css';
 
 export function LandingHero() {
@@ -18,40 +19,26 @@ export function LandingHero() {
             <p>Zamów kartę kredytową Visa Impresja (RRSO 18,28%) i spełnij warunki promocji</p>
 
             <div className="landing-hero__actions">
-              <button className="landing-hero__primary-btn" type="button" onClick={handleOpenInfoPopup}>
+              <button className="app-button app-button--primary landing-hero__primary-btn" type="button" onClick={handleOpenInfoPopup}>
                 ZŁÓŻ WNIOSEK
               </button>
-              <button className="landing-hero__secondary-btn" type="button" onClick={handleOpenInfoPopup}>
+              <button className="app-button landing-hero__secondary-btn" type="button" onClick={handleOpenInfoPopup}>
                 DOWIEDZ SIĘ WIĘCEJ
               </button>
               <span className="landing-hero__legal-link">Koszt kredytu i nota prawna</span>
             </div>
 
-            <button className="landing-hero__play-btn" type="button" aria-label="Odtwórz materiał promocyjny">
+            <button className="app-button app-button--icon landing-hero__play-btn" type="button" aria-label="Odtwórz materiał promocyjny">
               <span>▶</span>
             </button>
           </div>
 
-          <div className="landing-hero__visual">
-            <div className="landing-hero__photo">
-              <div className="landing-hero__strokes" />
-              <div className="landing-hero__person">
-                <div className="landing-hero__arm landing-hero__arm--left" />
-                <div className="landing-hero__arm landing-hero__arm--right" />
-                <div className="landing-hero__body" />
-                <div className="landing-hero__head">
-                  <div className="landing-hero__hair" />
-                  <div className="landing-hero__glasses" />
-                </div>
-              </div>
-
-              <div className="landing-hero__badge">
-                <span>DO</span>
-                <strong>400</strong>
-                <em>ZŁ</em>
-              </div>
-            </div>
-          </div>
+          <div
+            className="landing-hero__visual"
+            style={{ '--fortuna-landing-image': `url(${fortunaImage})` } as CSSProperties}
+            role="img"
+            aria-label="Fortuna z opaską na oczach, kołem losu i rogiem obfitości"
+          />
         </div>
 
         <div className="landing-hero__cards">
