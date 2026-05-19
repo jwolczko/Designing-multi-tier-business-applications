@@ -199,7 +199,7 @@ Backend znajduje się w katalogu \texttt{backend}. Najwygodniejszy sposób uruch
     \item Uruchomić projekt.
 \end{enumerate}
 
-Backend można także uruchomić z terminala:
+Backend można także uruchomić z terminala. Z katalogu głównego repozytorium należy przejść do projektu API, odtworzyć zależności i uruchomić aplikację:
 
 \begin{verbatim}
 cd backend/src/Fortuna.Api
@@ -207,11 +207,20 @@ dotnet restore
 dotnet run
 \end{verbatim}
 
-Po uruchomieniu API udostępnia Swagger UI pod adresem bazowym aplikacji, ponieważ endpoint \texttt{/} przekierowuje do \texttt{/swagger}. Dostępny jest również prosty endpoint kontrolny:
+Po uruchomieniu terminal wyświetli adres, na którym nasłuchuje aplikacja, np. \texttt{https://localhost:xxxx} albo \texttt{http://localhost:xxxx}. Swagger UI jest dostępny pod adresem:
+
+\begin{verbatim}
+https://localhost:xxxx/swagger
+http://localhost:xxxx/swagger
+\end{verbatim}
+
+Endpoint \texttt{/} przekierowuje do \texttt{/swagger}. Dostępny jest również prosty endpoint kontrolny:
 
 \begin{verbatim}
 GET /api/health
 \end{verbatim}
+
+Przed uruchomieniem backendu z terminala należy upewnić się, że SQL Server działa oraz że wykonano skrypty tworzące bazy \texttt{FortunaWriteDb} i \texttt{FortunaReadDb}. W przeciwnym razie API uruchomi się, ale operacje korzystające z bazy danych zakończą się błędem połączenia albo błędem braku tabel.
 
 Sekcja CORS w konfiguracji dopuszcza frontend działający lokalnie pod adresem \texttt{http://localhost:5173}. Jeżeli frontend zostanie uruchomiony na innym porcie, trzeba dodać ten adres do \texttt{Cors:AllowedOrigins}.
 

@@ -35,6 +35,35 @@ Do pełnego działania backendu wymagamane jest poprawne zainstalowanie Visula S
 oraz .NET 10.
 W celu uruiichomienia projektu należy za pomocą Visula Studio lub Riddera uruchomić plik: **Fortuna.slnx** z folderu : *..\Designing-multi-tier-business-applications\backend*
 
+Backend można też uruchomić bezpośrednio z terminala. Z katalogu głównego repozytorium należy wykonać:
+
+```powershell
+cd backend/src/Fortuna.Api
+dotnet restore
+dotnet run
+```
+
+Po uruchomieniu aplikacji terminal wyświetli adres API, np. `https://localhost:xxxx` albo `http://localhost:xxxx`.
+Swagger jest dostępny pod adresem:
+
+```text
+https://localhost:xxxx/swagger
+```
+
+albo:
+
+```text
+http://localhost:xxxx/swagger
+```
+
+Poprawność działania API można sprawdzić endpointem:
+
+```text
+GET /api/health
+```
+
+Przed uruchomieniem backendu należy upewnić się, że SQL Server działa oraz że zostały wykonane skrypty tworzące bazy `FortunaWriteDb` i `FortunaReadDb`.
+
 ### Bazy danych:
 Do baz danych należy zainstalować [**SQL Serve 2025 Developer**](https://go.microsoft.com/fwlink/?linkid=2344626&clcid=0x409&culture=en-us&country=us). Po poprawnym zainstalowaniu instancji SQL Servera należy uruchomić SQL Server Management Studio.
 Następnie należy kliknąż w menu *Plik* -> *Otwórz* -> *Projekt/rozwiązanie*,
