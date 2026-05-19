@@ -38,10 +38,10 @@
 \begin{tabular}{ll}
 
 \textbf{Tytuł projektu:} & Fortuna -- aplikacja dla klientów banku \\[6pt]
-\textbf{Frontend:} & React, Vite, TypeScript, Redux Toolkit, TanStack Query \\[6pt]
+\textbf{Frontend:} & React, Vite, TypeScript, Redux Toolkit\\[6pt]
 \textbf{Backend:} & ASP.NET Core, .NET, Entity Framework Core \\[6pt]
 \textbf{Bazy danych:} & SQL Server, osobna baza zapisu i baza odczytu \\[6pt]
-\textbf{Architektura:} & Clean Architecture, DDD, CQRS, Outbox, Read Model \\[6pt]
+\textbf{Architektura:} & Clean Architecture, DDD, CQRS\\[6pt]
 
 \textbf{Autor 1:} & Jakub Wołczko\\
 \textbf{Nr albumu:} & 70210 \\[6pt]
@@ -71,6 +71,201 @@ Zakres funkcjonalny obejmuje:
     \item tworzenie przelewów własnych i zewnętrznych,
     \item symulację przelewu przychodzącego przez endpoint API,
     \item asynchroniczną aktualizację modelu odczytu przez mechanizm Outbox.
+\end{itemize}
+
+\section{Użyte technologie}
+
+Projekt składa się z trzech głównych części: aplikacji frontendowej, backendu oraz skryptów baz danych. Technologie dobrano tak, aby pokazać typowy układ wielowarstwowej aplikacji biznesowej: klient WWW, API, warstwa przypadków użycia, model domenowy, infrastruktura i relacyjna baza danych.
+
+\subsection{Frontend}
+
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\toprule
+\textbf{Technologia} & \textbf{Zastosowanie w projekcie} \\
+\midrule
+\endhead
+React 19 & Budowa interfejsu użytkownika jako aplikacji SPA. Komponenty React odpowiadają za landing page, formularze logowania i rejestracji, dashboard oraz popup przelewu. \\
+TypeScript & Typowanie kodu frontendu, kontraktów żądań i odpowiedzi API oraz struktur stanu aplikacji. \\
+Vite & Serwer deweloperski i bundler aplikacji frontendowej. Uruchamia aplikację lokalnie pod adresem \texttt{http://localhost:5173}. \\
+React Router & Routing po stronie klienta. Definiuje ścieżki \texttt{/}, \texttt{/login}, \texttt{/create-account} i \texttt{/dashboard}. \\
+Redux Toolkit i React Redux & Przechowywanie stanu autoryzacji, tokenu JWT i informacji o sesji użytkownika. \\
+TanStack Query & Pobieranie i cache'owanie danych dashboardu. \\
+Axios / fetch wrapper & Komunikacja z backendem przez funkcję \texttt{apiRequest}. \\
+CSS & Stylowanie widoków, popupów, przycisków, formularzy, watermarków i palety kolorów aplikacji. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Backend}
+
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\toprule
+\textbf{Technologia} & \textbf{Zastosowanie w projekcie} \\
+\midrule
+\endhead
+.NET 10 / C\# & Implementacja backendu, warstw aplikacyjnych, domeny i infrastruktury. \\
+ASP.NET Core Web API & Udostępnienie endpointów REST dla rejestracji, logowania, dashboardu, kont i przelewów. \\
+Entity Framework Core & Mapowanie modelu domenowego na tabele SQL Server oraz obsługa kontekstów \texttt{WriteDbContext} i \texttt{ReadDbContext}. \\
+SQL Server provider & Dostęp do baz \texttt{FortunaWriteDb} i \texttt{FortunaReadDb}. \\
+JWT Bearer Authentication & Autoryzacja endpointów chronionych. Token jest generowany po poprawnym logowaniu. \\
+PBKDF2 & Hashowanie i weryfikacja haseł klientów. \\
+Swagger / OpenAPI & Dokumentacja i ręczne testowanie endpointów backendu z poziomu przeglądarki. \\
+Hosted Service & Proces \texttt{OutboxMessageProcessor} działający w tle i przenoszący zdarzenia do modelu odczytu. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Bazy danych i narzędzia pomocnicze}
+
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\toprule
+\textbf{Technologia / narzędzie} & \textbf{Rola} \\
+\midrule
+\endhead
+SQL Server 2025 Developer & Lokalny silnik baz danych używany przez backend. \\
+SQL Server Management Studio & Uruchamianie skryptów \texttt{FortunaWriteDb.sql} i \texttt{FortunaReadDb.sql}. \\
+Bruno & Ręczne testowanie endpointów API, np. przelewu przychodzącego. \\
+PlantUML & Źródła diagramów UML w katalogu \texttt{docs/uml}. \\
+LuaLaTeX & Kompilacja dokumentacji technicznej z pliku \texttt{documentation.tex}. \\
+Git & Kontrola wersji projektu. \\
+\bottomrule
+\end{longtable}
+
+\section{Uruchomienie projektu}
+
+Do uruchomienia pełnego systemu potrzebne są trzy elementy: SQL Server z dwiema bazami danych, backend ASP.NET Core oraz frontend React. Zalecana kolejność to: przygotowanie baz danych, uruchomienie backendu, uruchomienie frontendu.
+
+\subsection{Wymagane narzędzia}
+
+\begin{itemize}[nosep]
+    \item Visual Studio 2026 albo JetBrains Rider do uruchamiania backendu.
+    \item .NET 10 SDK.
+    \item Node.js w wersji 25.8.1 lub nowszej oraz npm.
+    \item SQL Server 2025 Developer.
+    \item SQL Server Management Studio albo inne narzędzie do wykonywania skryptów T-SQL.
+    \item Visual Studio Code do wygodnej pracy z frontendem.
+    \item Bruno do ręcznego testowania API.
+    \item Git do pobrania repozytorium.
+\end{itemize}
+
+Po instalacji Node.js warto sprawdzić, czy programy zostały dodane do zmiennej \texttt{PATH}:
+
+\begin{verbatim}
+node --version
+npm --version
+\end{verbatim}
+
+Analogicznie można sprawdzić instalację .NET:
+
+\begin{verbatim}
+dotnet --version
+\end{verbatim}
+
+\subsection{Przygotowanie baz danych}
+
+Backend korzysta z dwóch baz danych:
+\begin{itemize}[nosep]
+    \item \texttt{FortunaWriteDb} -- baza zapisu, przechowująca model transakcyjny,
+    \item \texttt{FortunaReadDb} -- baza odczytu, przechowująca projekcje dashboardu.
+\end{itemize}
+
+Kroki uruchomienia baz:
+\begin{enumerate}[nosep]
+    \item Uruchomić SQL Server.
+    \item Otworzyć SQL Server Management Studio.
+    \item Połączyć się z lokalną instancją SQL Server, np. \texttt{localhost}.
+    \item Otworzyć projekt bazodanowy \texttt{database/FortunaDb.slnx} albo bezpośrednio otworzyć skrypty SQL.
+    \item Wykonać skrypt \texttt{database/FortunaWriteDb.sql}.
+    \item Wykonać skrypt \texttt{database/FortunaReadDb.sql}.
+\end{enumerate}
+
+Skrypty tworzą bazy, tabele, indeksy i wymagane relacje. Są napisane tak, aby mogły być uruchomione na pustej lokalnej instancji SQL Server. Domyślna konfiguracja backendu zakłada połączenie:
+
+\begin{verbatim}
+Server=localhost;Database=FortunaWriteDb;
+Trusted_Connection=True;TrustServerCertificate=True
+
+Server=localhost;Database=FortunaReadDb;
+Trusted_Connection=True;TrustServerCertificate=True
+\end{verbatim}
+
+Jeśli baza działa na innej instancji lub wymaga logowania SQL, należy zmienić wartości w pliku \texttt{backend/src/Fortuna.Api/appsettings.json}.
+
+\subsection{Uruchomienie backendu}
+
+Backend znajduje się w katalogu \texttt{backend}. Najwygodniejszy sposób uruchomienia:
+\begin{enumerate}[nosep]
+    \item Otworzyć plik \texttt{backend/Fortuna.slnx} w Visual Studio albo Riderze.
+    \item Ustawić projekt startowy \texttt{Fortuna.Api}.
+    \item Sprawdzić konfigurację \texttt{appsettings.json}, szczególnie sekcje \texttt{Database}, \texttt{Jwt} i \texttt{Cors}.
+    \item Uruchomić projekt.
+\end{enumerate}
+
+Backend można także uruchomić z terminala:
+
+\begin{verbatim}
+cd backend/src/Fortuna.Api
+dotnet restore
+dotnet run
+\end{verbatim}
+
+Po uruchomieniu API udostępnia Swagger UI pod adresem bazowym aplikacji, ponieważ endpoint \texttt{/} przekierowuje do \texttt{/swagger}. Dostępny jest również prosty endpoint kontrolny:
+
+\begin{verbatim}
+GET /api/health
+\end{verbatim}
+
+Sekcja CORS w konfiguracji dopuszcza frontend działający lokalnie pod adresem \texttt{http://localhost:5173}. Jeżeli frontend zostanie uruchomiony na innym porcie, trzeba dodać ten adres do \texttt{Cors:AllowedOrigins}.
+
+\subsection{Uruchomienie frontendu}
+
+Frontend znajduje się w katalogu \texttt{frontend}. Kroki uruchomienia:
+
+\begin{verbatim}
+cd frontend
+npm install
+npm run dev
+\end{verbatim}
+
+Po uruchomieniu Vite aplikacja jest dostępna pod adresem:
+
+\begin{verbatim}
+http://localhost:5173
+\end{verbatim}
+
+Najważniejsze skrypty npm:
+
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\toprule
+\textbf{Komenda} & \textbf{Opis} \\
+\midrule
+\endhead
+\texttt{npm run dev} & Uruchamia lokalny serwer deweloperski Vite. \\
+\texttt{npm run build} & Kompiluje TypeScript i tworzy produkcyjny build aplikacji. \\
+\texttt{npm run lint} & Uruchamia ESLint dla kodu frontendu. \\
+\texttt{npm run preview} & Uruchamia podgląd produkcyjnego builda. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Proponowana ścieżka testowa po uruchomieniu}
+
+Po uruchomieniu baz, backendu i frontendu można sprawdzić działanie aplikacji w następujący sposób:
+\begin{enumerate}[nosep]
+    \item Wejść na \texttt{http://localhost:5173}.
+    \item Otworzyć formularz rejestracji i utworzyć użytkownika.
+    \item Zalogować się utworzonym adresem e-mail i hasłem.
+    \item Po zalogowaniu przejść na dashboard.
+    \item Wykonać przelew z poziomu popupu przelewów.
+    \item Sprawdzić, czy saldo i zdarzenia na dashboardzie są odświeżane.
+    \item Opcjonalnie użyć Bruno albo Swaggera do wywołania \texttt{POST /api/transfers/incoming}, aby zasymulować przelew przychodzący.
+\end{enumerate}
+
+\subsection{Typowe problemy konfiguracyjne}
+
+\begin{itemize}
+    \item Jeżeli backend nie łączy się z bazą, należy sprawdzić, czy SQL Server działa oraz czy connection stringi w \texttt{appsettings.json} wskazują poprawną instancję.
+    \item Jeżeli frontend zgłasza błąd CORS, należy upewnić się, że adres frontendu znajduje się w sekcji \texttt{Cors:AllowedOrigins}.
+    \item Jeżeli logowanie działa, ale dashboard zwraca błąd autoryzacji, należy sprawdzić, czy token JWT jest dołączany w nagłówku \texttt{Authorization}.
+    \item Jeżeli dashboard nie pokazuje najnowszych danych od razu po operacji, należy pamiętać, że model odczytu jest aktualizowany asynchronicznie przez Outbox processor.
+    \item Jeżeli token wygasa w trakcie testów, można ponownie się zalogować. Domyślny czas życia tokenu w konfiguracji wynosi 5 minut.
 \end{itemize}
 
 \section{Widoki aplikacji}
@@ -358,6 +553,12 @@ Frontend znajduje się w katalogu \texttt{frontend/src}. Aplikacja używa React 
 
 Frontend używa funkcji \texttt{apiRequest}. Rejestracja i logowanie wysyłają żądania anonimowe. Dashboard i przelewy dodają nagłówek \texttt{Authorization}. Po wykonaniu przelewu frontend wykonuje lokalną, optymistyczną aktualizację danych, a następnie może pobrać odświeżony dashboard z read modelu.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{frontend-component-diagram.png}
+    \caption{Diagram komponentów frontendu.}
+\end{figure}
+
 \section{Bezpieczeństwo i walidacja}
 
 Backend używa JWT Bearer Authentication. Endpointy kont, dashboardu i przelewów wymagają zalogowania. Kontroler dashboardu dodatkowo sprawdza, czy klient próbuje pobrać własne dane, porównując identyfikator z URL z identyfikatorem z tokenu.
@@ -365,6 +566,28 @@ Backend używa JWT Bearer Authentication. Endpointy kont, dashboardu i przelewó
 Hasła nie są przechowywane jawnie. Implementacja \texttt{Pbkdf2PasswordHasher} zapisuje hash hasła. Rejestracja wymaga hasła o długości co najmniej 8 znaków, a logowanie zwraca błąd autoryzacji dla niepoprawnego e-maila albo hasła.
 
 Walidacja reguł biznesowych znajduje się w handlerach i modelu domenowym. Przykładowo przelew zewnętrzny wymaga numeru rachunku i nazwy odbiorcy, przelew własny wymaga innego produktu docelowego niż źródłowy, a operacje wpłat i wypłat są obsługiwane tylko dla kont oraz kart.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{authentication-flow.png}
+    \caption{Przepływ uwierzytelniania i autoryzacji JWT.}
+\end{figure}
+
+\section{Dodatkowe diagramy architektoniczne}
+
+Poniższe diagramy uzupełniają główne widoki UML o perspektywę uruchomieniową oraz o szczegóły asynchronicznej synchronizacji modelu odczytu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{outbox-processing-flow.png}
+    \caption{Przetwarzanie zdarzeń domenowych przez mechanizm Outbox.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{runtime-deployment.png}
+    \caption{Lokalny diagram uruchomieniowy systemu.}
+\end{figure}
 
 \section{Podsumowanie}
 
